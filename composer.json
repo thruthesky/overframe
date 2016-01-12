@@ -1,5 +1,5 @@
 {
-  "name": "overfame/overfame",
+  "name": "overframe/overframe",
   "type": "library",
   "description": "A micro framework which works on nother frameworks.",
   "keywords": ["framework","overframe"],
