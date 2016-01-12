@@ -3,10 +3,20 @@
 spl_autoload_register( function( $class ) {
     if ( strpos( $class, 'of\\') !== false ) {
         $class_name = str_replace('of\\', '', $class);
-        $lower = strtolower($class_name);
-        include "model\\$lower\\$class_name.php";
+
+        if ( strpos( $class_name, '\\') !== false ) {
+            $arr = explode('\\', $class_name);
+            $model_name = strtolower($arr[0]);
+            $class_name = $arr[1];
+        }
+        else {
+            $model_name = strtolower($class_name);
+        }
+        include "model\\$model_name\\$class_name.php";
     }
 } );
 
-include 'helper.php';
+include 'helper.overframe.php';
+include 'config.overframe.php';
 
+sys()->log("++ ------------- New connection begins ...");
