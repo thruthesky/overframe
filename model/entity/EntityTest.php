@@ -62,13 +62,14 @@ class EntityTest extends Entity
         $entity
             ->create()
             ->save();
+
         test( $entity->count() == 2, 'OK', 'ERROR');
 
         $entity->addColumn('name', 'varchar', 32);
 
         test( $entity->columnExists('name'), 'OK - Entity column added', 'ERROR - failed on adding entity column');
 
-        // from here.
+        // from here. copy from sapcms2 entitytest.php
     }
 
 
