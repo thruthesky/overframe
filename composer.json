@@ -1,0 +1,19 @@
+{
+  "name": "overfame/overfame",
+  "type": "library",
+  "description": "A micro framework which works on nother frameworks.",
+  "keywords": ["framework","overframe"],
+  "homepage": "https://github.com/thruthesky/overfame",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "JJaeHo Song",
+      "email": "thruthesky@gmail.com",
+      "homepage": "http://jaehosong.com",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=5.3.0"
+  }
+}
