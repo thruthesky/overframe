@@ -1,10 +1,12 @@
-# Overframe - Framework independent frame work.
+# Overframe
 
 
 ## Overview
 
-Overframe is another name of sapcms 4 which runs upon other frameworks like codeigniter, laravel, slim, etc.
+Overframe is a framewhich runs upon other frameworks like codeigniter, laravel, slim, etc.
 
 
+## installation
+composer require overframe/overframe
 
 
