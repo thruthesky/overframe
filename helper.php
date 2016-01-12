@@ -1,10 +1,16 @@
 <?php
 
+use of\Entity;
 use of\System;
 
 /**
  * @return System
  */
-function system() {
+function sys() {
     return new System();
+}
+
+
+function entity() {
+    return new Entity();
 }

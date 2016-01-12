@@ -9,7 +9,7 @@ class Entity {
 
     public function __construct()
     {
-        system()->find();
+        sys()->find();
     }
 
     /**
@@ -27,6 +27,8 @@ class Entity {
     public function getTable() {
         return $this->table;
     }
+
+
 
 }
 
