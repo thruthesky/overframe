@@ -150,7 +150,7 @@ class Entity {
             $this->db->update(
                 $this->getTableName(),
                 $this->record,
-                array('id'=>$id)
+                "id=$id"
             );
         }
         else {
@@ -195,6 +195,34 @@ class Entity {
         $this->record = $row;
         if ( $this->record ) return clone $this;
         else return FALSE;
+    }
+
+
+    /**
+     *
+     * Returns an array of Entity object.
+     *
+     * @param $ids
+     * @return array
+     */
+    public function loads($ids) {
+        $these = array();
+        foreach ($ids as $id) {
+            $entity = clone $this;
+            $entity->load($id);
+            $these[] = $entity;
+        }
+        return $these;
+    }
+
+
+    public function addColumn( $field, $type, $size=0) {
+        $this->db->addColumn( $this->getTableName(), $field, $type, $size);
+    }
+
+    public function columnExists($field_name)
+    {
+        return $this->db->columnExists($this->getTableName(), $field_name);
     }
 
 

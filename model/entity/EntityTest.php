@@ -59,8 +59,16 @@ class EntityTest extends Entity
 
         test( $new_entity->get('id') == $id, "OK", "ERROR - test_crud() - load failed");
 
-        // from here... update / delete
+        $entity
+            ->create()
+            ->save();
+        test( $entity->count() == 2, 'OK', 'ERROR');
 
+        $entity->addColumn('name', 'varchar', 32);
+
+        test( $entity->columnExists('name'), 'OK - Entity column added', 'ERROR - failed on adding entity column');
+
+        // from here.
     }
 
 

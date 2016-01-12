@@ -20,7 +20,6 @@ class Database extends DatabaseLayer {
     }
 
     public function createTable($table_name) {
-
         $q = "CREATE TABLE `$table_name` ( `id` INT UNSIGNED NULL DEFAULT NULL AUTO_INCREMENT , PRIMARY KEY (`id`)) ENGINE = InnoDB;";
         $this->exec($q);
         return $this;
@@ -40,6 +39,21 @@ class Database extends DatabaseLayer {
      */
     public function tableExists($table_name) {
         $rows = $this->query("SHOW TABLES LIKE '$table_name'");
+        return count($rows) > 0;
+    }
+
+
+    /**
+     * @param $table_name
+     * @param null $field_name
+     * @return bool - TRUE if the field exists on the table
+     *
+     * @code
+     *      Database::load()->columnExists('temp', 'idx')
+     * @endcode
+     */
+    public function columnExists($table_name, $field_name=null) {
+        $rows = $this->query("SHOW COLUMNS FROM `$table_name` LIKE '$field_name';");
         return count($rows) > 0;
     }
 
@@ -178,6 +192,7 @@ class Database extends DatabaseLayer {
         $q = "ALTER TABLE $table_name ADD UNIQUE KEY ($fields);";
         return $this->exec($q);
     }
+
 
 
     /**
