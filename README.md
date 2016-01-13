@@ -20,6 +20,12 @@ for sapcms_1_2, add it into root/etc folder.<br>
 for codeigniter3, add it into root folder.
 
 
+### git sub-module
+
+Since project is not for the public use, we do not use composer/packagist.org<br>
+
+
+
 
 
 
