@@ -8,9 +8,29 @@ class System {
     const ci3 = 'codeigniter3';
     static $count_log = 0;
 
+
+    static $list_model = [];
+
     public function __construct()
     {
 
+    }
+
+
+    /**
+     * @param $list
+     *
+     * @code
+        sys()->setModels( glob(OVERFRAME_DIR . "/model/*", GLOB_ONLYDIR) );
+        di(sys()->getModels());
+     * @endcode
+     */
+    public static function setModels( $list ) {
+        self::$list_model = $list;
+    }
+
+    public static function getModels( ) {
+        return self::$list_model;
     }
 
     /**

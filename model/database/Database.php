@@ -143,7 +143,7 @@ class Database extends DatabaseLayer {
     public function row($q) {
         $rows = $this->rows($q);
         if ( $rows ) return $rows[0];
-        else return FALSE;
+        else return array();
     }
     public function result($q) {
         $row = $this->row($q);
@@ -214,6 +214,7 @@ class Database extends DatabaseLayer {
         $q = "ALTER TABLE $table_name ADD INDEX ($fields);";
         return $this->exec($q);
     }
+
 
 
 

@@ -23,10 +23,14 @@ for codeigniter3, add it into root folder.
 
 
 
-## phpunit
-root/overframe> phpunit model<br>
-root/overframe> phpunit model\entity
+## Unit Test
+Overframe unit test is builtin.<br>
+It is run on web server not on CLI.<br> 
+To run the unit test, input this code where ever you want.
 
+    <?php
+		echo runTest();
+	?>
 
 
 
@@ -58,5 +62,5 @@ Entity 는 하나의 테이블로서 Entity 를 생성하면 해당 테이블에
 
 
 
- 
+
 

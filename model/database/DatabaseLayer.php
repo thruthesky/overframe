@@ -64,7 +64,12 @@ class DatabaseLayer
      * @return mixed
      */
     public function quote($str) {
-        return $str;
+        if ( sys()->isCodeIgniter3() ) {
+            return $this->db->escape($str);
+        }
+        else {
+            return $str;
+        }
     }
 
     public function insert_id() {

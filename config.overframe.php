@@ -1,7 +1,5 @@
 <?php
-
-
-
-define('DATA_DIR', __DIR__ . '/data');
-define('PATH_DEBUG_LOG', DATA_DIR . '/debug.log');
+define('OVERFRAME_DIR', __DIR__);
+define('DATA_DIR', OVERFRAME_DIR . '/data');
+define('PATH_DEBUG_LOG', DATA_DIR . '/overframe.debug.log');
 
