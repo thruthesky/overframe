@@ -4,7 +4,7 @@ namespace of\database;
 class DatabaseTest {
 
     public function run() {
-
+        $this->test_database_connection();
         $this->crudTable();
         $this->editTable();
         $this->crudRecord();
@@ -22,7 +22,6 @@ class DatabaseTest {
         $re = $db->tableExists($name);
         test($re == FALSE, "OK - $name does not exists", "ERROR - $name exists.");
 
-
     }
 
     private function editTable()
@@ -39,7 +38,6 @@ class DatabaseTest {
         $db->addColumn($name, 'name', 'varchar', 255);
 
         $db->dropTable($name);
-
     }
 
     private function crudRecord()
@@ -81,9 +79,28 @@ class DatabaseTest {
     {
         $db = database();
         $re = $db->tableExists($name);
-        if ( $re == TRUE ) $db->dropTable($name);
+        if ( $re ) $db->dropTable($name);
         $db->createTable($name);
         return $db;
+    }
+
+    private function test_database_connection()
+    {
+        $name = "test_database_connection";
+        $db = database();
+        test($db->getDatabaseObject());
+
+        if ( $db->tableExists($name) ) $db->dropTable($name);
+        $db->createTable($name);
+
+        $ret_str = $db->quote('str');
+        test( $ret_str == "'str'" );
+
+        $db->dropTable($name);
+
+
+
+
     }
 
 }

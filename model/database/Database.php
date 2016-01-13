@@ -21,12 +21,20 @@ class Database extends DatabaseLayer {
 
     public function createTable($table_name) {
         $q = "CREATE TABLE `$table_name` ( `id` INT UNSIGNED NULL DEFAULT NULL AUTO_INCREMENT , PRIMARY KEY (`id`)) ENGINE = InnoDB;";
-        $this->exec($q);
+        $re = $this->exec($q);
+        if ( ! $re ) {
+            $path = path_run();
+            die("<hr>Database::createTable() : failed on create table $table_name. $path");
+        }
         return $this;
     }
     public function dropTable($table_name) {
         $q = "DROP TABLE $table_name;";
-        $this->exec($q);
+        $re = $this->exec($q);
+        if ( ! $re ) {
+            $path = path_run();
+            die("<hr>Database::createTable() : failed on create table $table_name. $path");
+        }
         return $this;
     }
 

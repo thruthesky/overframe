@@ -14,8 +14,15 @@ class DatabaseLayer
             $ci->load->database();
             $this->db = & $ci->db;
         }
+        else if ( sys()->isSapcms1() ) {
+            global $sys;
+            $this->db = $sys->db;
+        }
     }
 
+    public function getDatabaseObject() {
+        return $this->db;
+    }
 
     /**
      * This method executes a query which is 'write' type - create, insert, update, delete
@@ -24,23 +31,36 @@ class DatabaseLayer
      *
      *      - if you need to get records, use query()
      *
+     * @attention Do not use this methods on
+     *
+     *      SELECT, SHOW, DESCRIBE or EXPLAIN queries
+     *
      * @param $q
-     * @return bool
+     * @return boolean
+     *
+     *      - Returns FALSE on failure.
+     *
+     *      - Return TRUE on success.
+     *
      */
     public function exec($q) {
         sys()->log($q);
         if ( sys()->isCodeIgniter3() ) {
             return $this->db->query($q);
         }
-        return FALSE;
+        else if ( sys()->isSapcms1() ) {
+            return $this->db->query($q);
+        }
+
+        $path = path_run(2);
+        die("<hr>DatabaseLayer::exec()<hr>No framework support. No database connection.<hr>$path");
     }
 
 
     /**
      * @param $q
-     * @return bool|array
+     * @return bool | array
      *
-     *      - it returns FALSE if it does not support the parent framework database.
      *      - if it has empty table, it returns empty array()
      *      - if it has records, it returns in assoc-array.
      *
@@ -56,7 +76,11 @@ class DatabaseLayer
             $query = $this->db->query($q);
             return $query->result_array();
         }
-        return FALSE;
+        else if ( sys()->isSapcms1() ) {
+            return $this->db->rows($q);
+        }
+        $path = path_run(2);
+        die("DatabaseLayer::query()<hr>No framework support. No database connection.<hr>$path");
     }
 
     /**
@@ -67,15 +91,22 @@ class DatabaseLayer
         if ( sys()->isCodeIgniter3() ) {
             return $this->db->escape($str);
         }
-        else {
-            return $str;
+        else if ( sys()->isSapcms1() ) {
+            return $this->db->addquotes($str);
         }
+        $path = path_run(2);
+        die("DatabaseLayer::quote()<hr>No framework support. No database connection.<hr>$path");
+
     }
 
     public function insert_id() {
         if ( sys()->isCodeIgniter3() ) {
             return $this->db->insert_id();
         }
-        else return FALSE;
+        else if ( sys()->isSapcms1() ) {
+            return $this->db->insert_id;
+        }
+        $path = path_run(2);
+        die("DatabaseLayer::insert_id()<hr>No framework support. No database connection.<hr>$path");
     }
 }

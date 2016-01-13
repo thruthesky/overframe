@@ -184,8 +184,6 @@ class Entity {
     public function save() {
         if ( empty($this->record) ) return FALSE;
 
-
-
         if ( $id = self::get('id') ) {
             self::set('updated', time());
             $this->db->update(
@@ -218,7 +216,7 @@ class Entity {
     /**
      * Returns a new object of the Entity of input - $id
      *
-     * @note it loads a record into $this->record and return the clone.
+     * @note it loads a record into $this->record and returns in a new object.
      *
      * @attention The calling object's $record is changed.
      *
@@ -246,8 +244,16 @@ class Entity {
         if ( empty($fields) ) $fields = '*';
         $row = $this->db->row("SELECT $fields FROM " . $this->getTableName() . " $where");
         $this->record = $row;
-        if ( $this->record ) return clone $this;
-        else return FALSE;
+        if ( $this->record ) {
+            return clone $this;
+            //$obj = entity($this->getTableName());
+            //$obj->record = $this->record;
+            //return $obj;
+        }
+        else {
+            //di('load() no entity');
+            return FALSE;
+        }
     }
 
 

@@ -6,6 +6,7 @@ namespace of;
 class System {
 
     const ci3 = 'codeigniter3';
+    const sapcms1 = 'sapcms1';
     static $count_log = 0;
 
 
@@ -41,6 +42,7 @@ class System {
      * @return null
      */
     public function find() {
+        if ( defined('DIR_DATA_WIDGET') ) return self::sapcms1;
         if ( function_exists('get_instance') ) return self::ci3;
         else return null;
     }
@@ -51,6 +53,9 @@ class System {
      */
     public function isCodeIgniter3() {
         return $this->find() == System::ci3;
+    }
+    public function isSapcms1() {
+        return $this->find() == System::sapcms1;
     }
 
 

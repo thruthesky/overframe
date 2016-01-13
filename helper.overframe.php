@@ -35,12 +35,15 @@ function database() {
 }
 
 
-function di($obj) {
-    if ( empty($obj) ) return;
-    echo "<pre>";
-    print_r($obj);
-    echo "</pre>";
+if ( ! function_exists('di') ) {
+    function di($obj) {
+        if ( empty($obj) ) return;
+        echo "<pre>";
+        print_r($obj);
+        echo "</pre>";
+    }
 }
+
 
 
 $global_test_error = array();
@@ -64,14 +67,7 @@ function test( $code, $good=null, $bad=null ) {
     $_count_test ++;
     $tree = ___generateCallTrace();
     if ( $code ) {
-
-        $func = debug_backtrace()[1]['function'];
-        $cls = debug_backtrace()[1]['class'];
-        $file = debug_backtrace()[1]['file'];
-        $line = debug_backtrace()[1]['line'];
-
-        $path = "$file line $line - $cls::$func";
-
+        $path = path_run(2);
         echo "<span style='font-size:100%;color:#7f7c85;' title='$good $path'>$_count_test</span> ";
     }
     else {
@@ -90,21 +86,10 @@ function show_test_result() {
 }
 function ___generateCallTrace()
 {
-    $e = new Exception();
-    $trace = explode("\n", $e->getTraceAsString());
-    // reverse array to make steps line up chronologically
-    $trace = array_reverse($trace);
-    array_shift($trace); // remove {main}
-    array_pop($trace); // remove call to this method
-    $length = count($trace);
-    $result = array();
-
-    for ($i = 0; $i < $length; $i++)
-    {
-        $result[] = ($i + 1)  . ')' . substr($trace[$i], strpos($trace[$i], ' ')); // replace '#someNum' with '$i)', set the right ordering
-    }
-
-    return "\n\t" . implode("\n\t", $result);
+    ob_start();
+    $arr = debug_print_backtrace();
+    $str = ob_get_clean();
+    return $str;
 }
 
 
@@ -123,4 +108,15 @@ function page_no($no) {
     if ( ! is_numeric($no) ) return 1;
     else if ( $no < 1 ) return 1;
     else return $no;
+}
+
+
+function path_run($n = 1) {
+
+    $func = debug_backtrace()[$n]['function'];
+    $cls = debug_backtrace()[$n]['class'];
+    $file = debug_backtrace()[$n]['file'];
+    $line = debug_backtrace()[$n]['line'];
+
+    return "$file at line $line - $cls::$func";
 }

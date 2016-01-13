@@ -27,6 +27,7 @@ class EntityTest extends Entity
 
         //
         $entity->setTableName($name);
+
         test($entity->getTableName() == entity()->adjustTableName($name), 'OK', 'ERROR - table name adjusting failed');
         test( $entity->getTableName() == $this->adjustTableName($name), 'OK', 'ERROR');
 
@@ -60,8 +61,10 @@ class EntityTest extends Entity
         $id = $entity->get('id');
 
         $new_entity = entity($name)->load($id);
-
-        test( $new_entity->get('id') == $id, "OK", "ERROR - test_crud() - load failed");
+        test($new_entity);
+        if ( $new_entity ) {
+            test( $new_entity->get('id') == $id, "OK", "ERROR - test_crud() - load failed");
+        }
 
         $entity
             ->create()
@@ -75,10 +78,25 @@ class EntityTest extends Entity
 
         ///
         $entity->set('name', 'jaeho')->save();
-        $new_entity = entity($name)->load("name='jaeho'");
-        test( $new_entity instanceof Entity, 'OK ', 'ERROR - entity inheritance');
-        test( $new_entity->get('name') == 'jaeho', 'OK', 'ERROR - entity update error');
-        test( $new_entity->get('id') == $entity->get('id'), 'OK', 'ERROR - entities are not the same');
+
+        $e = entity($name);
+
+
+        $new_entity = $e->load("name='jaeho'");
+
+
+        test($new_entity);
+
+        if ( $new_entity ) {
+            test( $new_entity instanceof Entity, 'OK ', 'ERROR - entity inheritance');
+            test( $new_entity->get('name') == 'jaeho', 'OK', 'ERROR - entity update error');
+            test( $new_entity->get('id') == $entity->get('id'), 'OK', 'ERROR - entities are not the same');
+        }
+        else {
+            die("<hr>Entity load failed: " . __FILE__ . ' at ' . __LINE__ );
+        }
+
+
 
         /// entity count
         entity($name)->set('name', 'eunsu jung')->save();
@@ -96,12 +114,16 @@ class EntityTest extends Entity
 
         // entity instance check
         $re = true;
-        foreach ( entity($name)->loadAll() as $obj ) {
-            if ( $obj instanceof Entity ) {
-            }
-            else {
-                $re = false;
-                break;
+        $all = entity($name)->loadAll();
+        test( $all );
+        if ( $all ) {
+            foreach ( $all as $obj ) {
+                if ( $obj instanceof Entity ) {
+                }
+                else {
+                    $re = false;
+                    break;
+                }
             }
         }
         test ( $re );
@@ -135,7 +157,9 @@ class EntityTest extends Entity
 
         $entities = $entity->loads( array( $thruthesky->get('id') ) );
         $ne = array_shift($entities);
-        test( $thruthesky->get('id') == $ne->get('id') );
+        test($thruthesky);
+        test($ne);
+        if ( $thruthesky && $ne ) test( $thruthesky->get('id') == $ne->get('id') );
 
         $entity->uninit();
 
@@ -176,11 +200,16 @@ class EntityTest extends Entity
         $entity = $this->createDefaultTable();
 
         //
-        $entitiles = $entity->loadQuery("name like '%j%'", 'id,address');
-        $first = array_shift($entitiles);
-        test( isset($first->getRecord()['address']) );
-        test( ! isset($first->getRecord()['name']) );
-
+        $entities = $entity->loadQuery("name like '%j%'", 'id,address');
+        test($entities);
+        if ( $entities ) {
+            $first = array_shift($entities);
+            test($first);
+            if ( $first ) {
+                test( isset($first->getRecord()['address']) );
+                test( ! isset($first->getRecord()['name']) );
+            }
+        }
         $entity->uninit();
     }
 
@@ -210,17 +239,20 @@ class EntityTest extends Entity
 
         //
         $items = $entity->search( array('offset'=>5, 'limit'=>5) );
-        $re = true;
-        for ( $i = 0; $i < 5; $i ++ ) {
-            $a = $entities[$i];
-            $b = $page[$i];
-            $c = $items[$i];
-            if ( $a->get('id') == $b->get('id') && $a->get('id') == $c->get('id') ) {
-
-            }
-            else {
-                $re = false;
-                break;
+        test( $items );
+        $re = false;
+        if ( $items ) {
+            for ( $i = 0; $i < 5; $i ++ ) {
+                $a = $entities[$i];
+                $b = $page[$i];
+                $c = $items[$i];
+                if ( $a->get('id') == $b->get('id') && $a->get('id') == $c->get('id') ) {
+                    $re = true;
+                }
+                else {
+                    $re = false;
+                    break;
+                }
             }
         }
         test( $re );
@@ -241,7 +273,7 @@ class EntityTest extends Entity
         //
         $count_total = $entity->count();
         $count_entities = count($entities);
-        $entity->deleteEntities( $entities);
+        if ( $entities ) $entity->deleteEntities( $entities );
         test( $entity->count() == ( $count_total - $count_entities ) );
 
         $entity->uninit();
