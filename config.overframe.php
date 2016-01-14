@@ -1,6 +1,9 @@
 <?php
 define('DIR_OVERFRAME', __DIR__);
 
+/*
+
+
 if ( sys()->isSapcms1() ) {
     define('DIR_OVERFRAME_DATA', $sys->config->dir_data . '/overframe' );
 
@@ -9,10 +12,16 @@ if ( sys()->isSapcms1() ) {
     $url_overframe_data = "http://$domain/data/overframe";
     $url_overframe_ajax_endpoint = "http://$domain/?module=overframe&action=ajax&submit=1";
 }
-else {
+else if ( sys()->isCodeIgniter3() ) {
+    $ci = & get_instance();
+    $ci->load->library('url_helper');
     define('DIR_OVERFRAME_DATA', DIR_OVERFRAME . '/data');
     $url_overframe_data = '/data';
-    $url_overframe = baseurl('overframe');
+    $url_overframe = base_url('overframe');
+}
+else {
+    echo "<h1>No framework</h1>";
+    exit;
 }
 define('PATH_DEBUG_LOG', DIR_OVERFRAME_DATA. '/overframe.debug.log');
 
@@ -26,3 +35,5 @@ function url_overframe() {
     global $url_overframe;
     return $url_overframe;
 }
+
+*/

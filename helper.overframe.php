@@ -166,3 +166,59 @@ function json_success($data) {
     $in = http_input();
     echo json_encode( array('code'=>0, 'system'=>sys()->find(), 'do'=>$in['do'], 'data'=>$data) );
 }
+
+
+function dir_overframe() {
+    return DIR_OVERFRAME;
+}
+
+
+function dir_overframe_data()
+{
+    if ( sys()->isSapcms1() ) {
+        global $sys;
+        return $sys->config->dir_data . '/overframe';
+    }
+    else if ( sys()->isCodeIgniter3() ) {
+        return DIR_OVERFRAME . '/data';
+    }
+    else return null;
+}
+
+
+
+function url_overframe() {
+    if ( sys()->isSapcms1() ) {
+        $domain = etc::domain_name();
+        $url_overframe = "http://$domain/overframe";
+    }
+    else if ( sys()->isCodeIgniter3() ) {
+        $ci = & get_instance();
+        $ci->load->library('url_helper');
+        $url_overframe = base_url('overframe');
+    }
+    else $url_overframe = null;
+    return $url_overframe;
+}
+
+function url_overframe_data($path=null) {
+
+    if ( sys()->isSapcms1() ) {
+        $domain = etc::domain_name();
+        return "http://$domain/data/overframe";
+    }
+    else if ( sys()->isCodeIgniter3() ) {
+        $ci = & get_instance();
+        $ci->load->library('url_helper');
+        return base_url('overframe/data');
+    }
+    else return null;
+}
+
+
+
+
+function path_debug_log()
+{
+    return dir_overframe_data() . '/overframe.debug.log';
+}

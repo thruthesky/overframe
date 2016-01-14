@@ -71,14 +71,14 @@ class System {
      * @param $str
      * @return int|void
      */
-    public static function log ( $str )
+    public function log ( $str )
     {
         $str = is_string($str) ? $str : print_r( $str, true );
-        file_put_contents ( PATH_DEBUG_LOG, self::$count_log++ . ' : ' . $str . "\n", FILE_APPEND );
+        file_put_contents ( path_debug_log(), self::$count_log++ . ' : ' . $str . "\n", FILE_APPEND );
     }
 
     public function template($module_name) {
-        return DIR_OVERFRAME . "/template/$module_name/$module_name.php";
+        return dir_overframe() . "/template/$module_name/$module_name.php";
     }
 
     public function url_ajax_endpoint()
@@ -86,4 +86,6 @@ class System {
         global $url_overframe_ajax_endpoint;
         return $url_overframe_ajax_endpoint;
     }
+
+
 }
