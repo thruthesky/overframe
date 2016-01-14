@@ -27,20 +27,24 @@ foreach ( $datas as $data ) {
 
 $philgo_banner = new \of\Philgo_banner();
 $banners = $philgo_banner->loadAll();
-
-foreach ( $banners as $banner ) {
-    $subject = $banner->get('subject');
-    $img = null;
-    if ( $banner->get('fid') ) {
-        $image = data($banner->get('fid'));
-        if ( $image->is() ) {
-            $img = "<img src='" . $image->get('url') . "'>";
+if ( $banners ) {
+    foreach ( $banners as $banner ) {
+        $subject = $banner->get('subject');
+        $img = null;
+        if ( $banner->get('fid') ) {
+            $image = data($banner->get('fid'));
+            if ( $image->is() ) {
+                $img = "<img src='" . $image->get('url') . "'>";
+            }
         }
-    }
-    echo "
+        echo "
     <div>
     $subject
     $img
     </div>
     ";
+    }
+}
+else {
+    echo '<div class="alert alert-warning">등록된 배너가 없습니다.</div>';
 }
