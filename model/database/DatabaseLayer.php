@@ -92,7 +92,7 @@ class DatabaseLayer
             return $this->db->escape($str);
         }
         else if ( sys()->isSapcms1() ) {
-            return $this->db->addquotes($str);
+            return "'" . $this->db->addquotes($str) . "'";
         }
         $path = path_run(2);
         die("DatabaseLayer::quote()<hr>No framework support. No database connection.<hr>$path");
@@ -109,4 +109,20 @@ class DatabaseLayer
         $path = path_run(2);
         die("DatabaseLayer::insert_id()<hr>No framework support. No database connection.<hr>$path");
     }
+
+
+    public function getErrorString()
+    {
+        if ( sys()->isSapcms1() ) {
+            $str = $this->db->error;
+            $str .= "<hr>";
+            $str .= get_backtrace();
+            return $str;
+        }
+        else {
+            return $this->db->error;
+        }
+    }
+
+
 }

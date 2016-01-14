@@ -92,6 +92,7 @@ class Entity {
         return $this;
     }
 
+
     /**
      *
      * It gets assoc-array to set $this->record
@@ -202,6 +203,33 @@ class Entity {
         return $this;
     }
 
+
+    /**
+     *
+     * 하나의 필드를 entity()->set()->save() 를 하지 않고 곧 바로 데이터베이스에 저장한다.
+     *
+     * entity()->set()->save() 를 통해서 하면 모든 레코드를 다 저장해야하지만,
+     *
+     * put() 을 통해서 하면 하나의 레코드만 저장하면 되다.
+     *
+     * @param $field
+     * @param $value
+     * @return bool
+     */
+    public function put($field, $value) {
+        if ( $id = self::get('id') ) {
+            $this->db->update(
+                $this->getTableName(),
+                array($field => $value),
+                "id=$id"
+            );
+            $this->record[$field] = $value;
+            return $this;
+        }
+        else return FALSE;
+    }
+
+
     /**
      * @param null $cond - same as database->count()
      * @return mixed
@@ -239,6 +267,7 @@ class Entity {
      * @endcode
      */
     public function load($id, $fields='*') {
+        //sys()->log("Entity::load($id)");
         if ( is_numeric($id) ) $where = "WHERE id=$id";
         else $where = "WHERE $id";
         if ( empty($fields) ) $fields = '*';
@@ -357,8 +386,8 @@ class Entity {
 
 
 
-    public function addColumn( $field, $type, $size=0) {
-        $this->db->addColumn( $this->getTableName(), $field, $type, $size);
+    public function addColumn( $field, $type, $size=0, $default='') {
+        $this->db->addColumn( $this->getTableName(), $field, $type, $size, $default);
         return $this;
     }
 

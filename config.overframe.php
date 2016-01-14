@@ -1,5 +1,28 @@
 <?php
-define('OVERFRAME_DIR', __DIR__);
-define('DATA_DIR', OVERFRAME_DIR . '/data');
-define('PATH_DEBUG_LOG', DATA_DIR . '/overframe.debug.log');
+define('DIR_OVERFRAME', __DIR__);
 
+if ( sys()->isSapcms1() ) {
+    define('DIR_OVERFRAME_DATA', $sys->config->dir_data . '/overframe' );
+
+    $domain = etc::domain_name();
+    $url_overframe = "http://$domain/overframe";
+    $url_overframe_data = "http://$domain/data/overframe";
+    $url_overframe_ajax_endpoint = "http://$domain/?module=overframe&action=ajax&submit=1";
+}
+else {
+    define('DIR_OVERFRAME_DATA', DIR_OVERFRAME . '/data');
+    $url_overframe_data = '/data';
+    $url_overframe = baseurl('overframe');
+}
+define('PATH_DEBUG_LOG', DIR_OVERFRAME_DATA. '/overframe.debug.log');
+
+function url_overframe_data($path) {
+    global $url_overframe_data;
+    $url = $url_overframe_data . '/' . $path;
+    //sys()->log("url_overframe_data($path) : $url");
+    return $url;
+}
+function url_overframe() {
+    global $url_overframe;
+    return $url_overframe;
+}

@@ -70,3 +70,59 @@ Entity 는 하나의 테이블로서 Entity 를 생성하면 해당 테이블에
 
 
 
+
+
+## Model 목록/설치/제거
+
+모듈 목록은 template/model-list/model-list.php 에서 처리를 한다.
+
+설치는 해당 모듈의 install.php 의 is_installed, install, uninstall 훅을 사용해서 처리 한다.
+
+
+
+설치는 hook_모듈이름_install() 을 호출하므로서 사용가능하다.
+
+따라서 어떤 방식으로든 부모 프레임워크의 테마 또는 컨트롤러에서 "hook_모듈이름_install()"을 호출하면 된다.
+
+
+## Ajax Endpoint
+
+서버 모듈로 데이터 전송 및 표시는 Ajax 로 하는 것이 원칙이다.
+
+Ajax 가 아니면 아예 하지를 않는다.
+
+각 부모 모듈마다 Ajax Endpoint 를 제공해야한다.
+ 
+그 endpoint script 는 각 model 의 controller 부분을 wrapping 하여 ajax json 데이터를 바로 출력하도록 한다.
+  
+    <?php echo sys()->url_ajax_endpoint()?>&do=행동값
+
+
+## Data 모듈
+
+FORM 문장에서 파일을 전달하는 변수명은 항상 'userfile' 이어야 한다.
+
+    <input type='file' name='userfile'>
+
+data_node_entity.code 는 indexing 이 되는 필드이며 FORM 의 입력 변수로 들어 와야 한다.
+
+    <input type='hidden' name='code' value='photo'>
+
+파일 업로드 폼 입력 변수에 unqiue=1 의 값이 전달되면 해당 code 의 모든 파일을 다 지우고 현재 업로드 되는 파일만 올린다. 
+
+    <input type='hidden' name='unique' value='1'>
+    
+gid 는 업로드되는 파일의 그룹을 말한다. gid 를 통해서 글에 첨부되는 여러 파일을 하나의 그룹으로 묶을 수 있다.
+
+    <input type='hidden' name='gid' value='group-id'>
+    
+gid 는 주로 unique_id() 로 생성하거나 자바스크립트 등으로 생성 할 수 있다.
+
+글을 쓸 때, 파일 업로드에서 gid 를 통해서 업로드를 한 다음, 글을 저장 할 때, gid 를 "post-123", "comment-456" 과 같이 첨부 파일을 추출하게 쉽게 변경한다.
+
+예를 들어 글 번호가 123 이면, gid 가 "post-123" 인 것을 찾도록 한다.
+
+### File Upload FORM 문장
+
+    <form action="<?php echo sys()->url_ajax_endpoint()?>&do=file-upload" method="post" enctype="multipart/form-data">
+    

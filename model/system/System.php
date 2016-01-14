@@ -26,12 +26,20 @@ class System {
         di(sys()->getModels());
      * @endcode
      */
-    public static function setModels( $list ) {
+    public static function setModelPaths( $list ) {
         self::$list_model = $list;
     }
 
-    public static function getModels( ) {
+    public static function getModelPaths( ) {
         return self::$list_model;
+    }
+
+    public static function getModels() {
+        $names = array();
+        foreach ( sys()->getModelPaths() as $model ) {
+            $names[] = pathinfo($model, PATHINFO_BASENAME);
+        }
+        return $names;
     }
 
     /**
@@ -69,4 +77,13 @@ class System {
         file_put_contents ( PATH_DEBUG_LOG, self::$count_log++ . ' : ' . $str . "\n", FILE_APPEND );
     }
 
+    public function template($module_name) {
+        return DIR_OVERFRAME . "/template/$module_name/$module_name.php";
+    }
+
+    public function url_ajax_endpoint()
+    {
+        global $url_overframe_ajax_endpoint;
+        return $url_overframe_ajax_endpoint;
+    }
 }

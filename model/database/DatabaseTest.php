@@ -84,6 +84,9 @@ class DatabaseTest {
         return $db;
     }
 
+    /**
+     * database connection test.
+     */
     private function test_database_connection()
     {
         $name = "test_database_connection";
@@ -91,15 +94,19 @@ class DatabaseTest {
         test($db->getDatabaseObject());
 
         if ( $db->tableExists($name) ) $db->dropTable($name);
-        $db->createTable($name);
 
+        // table exists
+        test($db->tableExists($name) == FALSE);
+        $db->createTable($name);
+        test($db->tableExists($name));
+
+        // quote
         $ret_str = $db->quote('str');
         test( $ret_str == "'str'" );
 
+        // table drop
         $db->dropTable($name);
-
-
-
+        test($db->tableExists($name) == FALSE);
 
     }
 

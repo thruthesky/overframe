@@ -21,4 +21,4 @@ include 'config.overframe.php';
 
 sys()->log("++ ------------- New connection begins ...");
 
-sys()->setModels( glob(OVERFRAME_DIR . "/model/*", GLOB_ONLYDIR) );
+sys()->setModelPaths( glob(DIR_OVERFRAME . "/model/*", GLOB_ONLYDIR) );

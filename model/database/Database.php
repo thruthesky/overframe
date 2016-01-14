@@ -116,7 +116,8 @@ class Database extends DatabaseLayer {
         if ( $cond ) $where = "WHERE $cond";
         $q = "UPDATE $table_name SET $set $where";
 
-        return $this->exec($q);
+        if ( $this->exec($q) ) return TRUE;
+        else die( $this->getErrorString() );
     }
 
 
@@ -171,15 +172,19 @@ class Database extends DatabaseLayer {
      * @param int $size
      * @return bool
      */
-    public function addColumn( $table_name, $field, $type, $size=0) {
+    public function addColumn( $table_name, $field, $type, $size=0, $default='') {
 
         if ( empty($size) ) {
             if ( $type == 'varchar' ) $size = 255;
             else if ( $type == 'char' ) $size = 1;
         }
 
+        if ( empty($default) ) {
+            if ( stripos($type, 'int') !== false ) $default = 0;
+        }
+
         if ( $size ) $type = "$type($size)";
-        $q = "ALTER TABLE `$table_name` ADD COLUMN `$field` $type";
+        $q = "ALTER TABLE `$table_name` ADD COLUMN `$field` $type DEFAULT '$default'";
         return $this->exec($q);
 
     }
@@ -222,9 +227,6 @@ class Database extends DatabaseLayer {
         $q = "ALTER TABLE $table_name ADD INDEX ($fields);";
         return $this->exec($q);
     }
-
-
-
 
 
 
