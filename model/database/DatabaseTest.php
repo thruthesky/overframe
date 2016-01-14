@@ -94,6 +94,7 @@ class DatabaseTest {
         $db->createTable($name);
 
         $ret_str = $db->quote('str');
+
         test( $ret_str == "'str'" );
 
         $db->dropTable($name);
