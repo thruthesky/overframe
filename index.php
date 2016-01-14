@@ -1,2 +1,6 @@
-<h1>Overframe</h1>
+<?php
+/**
+ * @file index.php
+ * @desc index script for overframe.
+ */
 

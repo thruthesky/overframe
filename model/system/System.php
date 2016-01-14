@@ -51,8 +51,12 @@ class System {
      */
     public function find() {
         if ( defined('DIR_DATA_WIDGET') ) return self::sapcms1;
-        if ( function_exists('get_instance') ) return self::ci3;
+        if ( defined('VIEWPATH') ) return self::ci3;
         else return null;
+    }
+
+    public function name() {
+        return $this->find();
     }
 
     /**

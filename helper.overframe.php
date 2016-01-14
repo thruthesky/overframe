@@ -1,5 +1,6 @@
 <?php
 
+use of\Ajax;
 use of\Data;
 use of\Database;
 use of\Entity;
@@ -43,6 +44,11 @@ function data( $id = 0 ) {
     }
 }
 
+
+function ajax() {
+    return new Ajax();
+}
+
 function database() {
     return new Database();
 }
@@ -60,7 +66,9 @@ if ( ! function_exists('di') ) {
 
 
 $global_test_error = array();
-function runTest() {
+function run_test() {
+    echo "<h2>Begin test</h2>";
+    echo "<hr>";
     foreach ( sys()->getModelPaths() as $model ) {
         $name = pathinfo($model, PATHINFO_BASENAME);
         $files = glob( $model . '/*est.php' );
@@ -146,25 +154,35 @@ function unique_id()
 }
 
 
+$_http_input = array();
 /**
+ * @param null $name
  * @return array
  * @code
  *  $in = http_input();
  * @endcode
  */
-function http_input() {
-    return array_merge($_GET, $_POST);
+function http_input($name = null) {
+    global $_http_input;
+    if ( empty($_http_input) )$_http_input = array_merge($_GET, $_POST);
+    if ( $name ) {
+        if ( isset( $_http_input[$name] ) ) return $_http_input[$name];
+        else return null;
+    }
+    return $_http_input;
 }
 
 
 function json_error($code, $message) {
     $in = http_input();
     echo json_encode( array('code'=>$code, 'message'=>$message, 'system'=>sys()->find(), 'do'=>$in['do']) );
+    exit;
 }
 
 function json_success($data) {
     $in = http_input();
     echo json_encode( array('code'=>0, 'system'=>sys()->find(), 'do'=>$in['do'], 'data'=>$data) );
+    exit;
 }
 
 
@@ -194,11 +212,18 @@ function url_overframe() {
     }
     else if ( sys()->isCodeIgniter3() ) {
         $ci = & get_instance();
-        $ci->load->library('url_helper');
-        $url_overframe = base_url('overframe');
+        $ci->load->helper('url');
+        $url_overframe = base_url() . '/overframe';
     }
     else $url_overframe = null;
     return $url_overframe;
+}
+
+
+function url_root() {
+    if ( sys()->isSapcms1() ) return '/';
+    else if ( sys()->isCodeIgniter3() ) return base_url();
+    else return null;
 }
 
 function url_overframe_data($filename=null) {
@@ -209,8 +234,8 @@ function url_overframe_data($filename=null) {
     }
     else if ( sys()->isCodeIgniter3() ) {
         $ci = & get_instance();
-        $ci->load->library('url_helper');
-        return base_url('overframe/data/') . $filename;
+        $ci->load->helper('url');
+        return base_url('overframe/data') . '/' . $filename;
     }
     else return null;
 }
@@ -221,6 +246,9 @@ function ajax_endpoint() {
     if ( sys()->isSapcms1() ) {
         $domain = etc::domain_name();
         return "http://$domain/?module=overframe&action=ajax&submit=1";
+    }
+    if ( sys()->isCodeIgniter3() ) {
+        return url_root() . '?action=ajax';
     }
     else return null;
 }

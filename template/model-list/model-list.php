@@ -1,10 +1,10 @@
 <?php
 
+$in = http_input();
 
-
-if ( $in['name'] ) {
+if ( isset($in['name']) ) {
     include_once DIR_OVERFRAME . "/model/$in[name]/install.php";
-    $func = "hook_{$in[name]}_$in[mode]";
+    $func = "hook_{$in['name']}_$in[do]";
     $func();
 }
 
@@ -24,11 +24,11 @@ foreach( sys()->getModels() as $name ) {
             $re = $is_installed();
             if ( $re ) {
                 $status = 'installed';
-                $action = "<a href='?module=overframe&action=model_list&mode=uninstall&name=$name'>Un-Install</a>";
+                $action = "<a href='?action=model_list&do=uninstall&name=$name'>Un-Install</a>";
             }
             else {
                 $status = 'not installed';
-                $action = "<a href='?module=overframe&action=model_list&mode=install&name=$name'>Install</a>";
+                $action = "<a href='?action=model_list&do=install&name=$name'>Install</a>";
             }
         }
     }
