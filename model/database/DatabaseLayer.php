@@ -124,5 +124,23 @@ class DatabaseLayer
         }
     }
 
+    public function getTables() {
+        if ( sys()->isCodeIgniter3() ) {
+            return $this->db->list_tables();
+        }
+        else if ( sys()->isSapcms1() ) {
+            $tables = array();
+            $rows = $this->db->rows("SHOW TABLES");
+            if ( $rows ) {
+                foreach( $rows as $row ) {
+                    list ($k, $v) = each($row);
+                    $tables[] = $v;
+                }
+            }
+            return $tables;
+        }
+        $path = path_run(2);
+        die("DatabaseLayer::query()<hr>No framework support. No database connection.<hr>$path");
+    }
 
 }

@@ -4,6 +4,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.2/js/bootstrap.min.js" integrity="sha384-vZ2WRJMwsjRMW/8U7i6PWi6AlO1L79snBrmgiDpgIWJ82z8eA5lenwvxbMV1PAh7" crossorigin="anonymous"></script>
 <?php
 $url = url_action();
+
 ?>
 
 <div class="of-page">
@@ -16,11 +17,18 @@ $url = url_action();
 
 
             <a class="nav-item nav-link" href="<?php echo $url?>">Home</a>
-            <a class="nav-item nav-link" href="<?php echo $url?>&do=test">Test</a>
-            <a class="nav-item nav-link" href="<?php echo $url?>&do=model-list">Model List</a>
-            <a class="nav-item nav-link" href="<?php echo $url?>&do=file-upload-test">File Upload Test</a>
+            <?php if ( user()->isAdmin() ) { ?>
 
-            <a class="nav-item nav-link" href="<?php echo $url?>&do=philgo-banner">Banner</a>
+                <a class="nav-item nav-link" href="<?php echo $url?>&do=test">Test</a>
+                <a class="nav-item nav-link" href="<?php echo $url?>&do=model-list">Model List</a>
+                <a class="nav-item nav-link" href="<?php echo $url?>&do=entity-list">Entity List</a>
+                <a class="nav-item nav-link" href="<?php echo $url?>&do=file-upload-test">File Upload Test</a>
+
+            <?php } ?>
+
+            <?php if ( user()->hasAccess() ) { ?>
+                <a class="nav-item nav-link" href="<?php echo $url?>&do=philgo-banner">Banner</a>
+            <?php } ?>
 
 
         </div>
@@ -35,6 +43,9 @@ $url = url_action();
             case 'install' :
             case 'uninstall' :
                 include sys()->template('model-list');
+                return;
+            case 'entity-list' :
+                include sys()->template('entity-list');
                 return;
             case 'file-upload-test' :
                 include sys()->template('file-upload-test');

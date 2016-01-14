@@ -1,16 +1,14 @@
 <?php
 namespace of;
 
-class User extends Node {
+use of\user\UserLayer;
 
-    public function __construct()
+class User extends UserLayer {
+
+
+    public function hasAccess()
     {
-        parent::__construct();
-        $this->setTable('user');
+        if ( $this->isAdmin() ) return true;
+        else return false;
     }
-
-
-
-
-
 }
