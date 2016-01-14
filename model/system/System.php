@@ -81,11 +81,5 @@ class System {
         return dir_overframe() . "/template/$module_name/$module_name.php";
     }
 
-    public function url_ajax_endpoint()
-    {
-        global $url_overframe_ajax_endpoint;
-        return $url_overframe_ajax_endpoint;
-    }
-
 
 }

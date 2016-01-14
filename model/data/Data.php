@@ -67,7 +67,7 @@ class Data extends Node {
 
     private function deleteUnfishedUploads()
     {
-        $stamp = time() - 60 * 1; // 1 hours.
+        $stamp = time() - 60 * 60 * 4; // 4 hours.
         $entities = $this->loadQuery("finish=0 AND created<$stamp");
         if ( $entities ) {
             foreach ( $entities as $data ) {
@@ -107,13 +107,13 @@ class Data extends Node {
         $data = parent::load($id, $fields);
         if ( $data->is() ) {
             $data->set( 'url', url_overframe_data($this->get('name_saved')) );
-            $data->set('path', $this->path( $this->get('name_saved') ) );
+            $data->set( 'path', $this->path( $this->get('name_saved') ) );
         }
         return $data;
     }
 
     private function path($filename) {
-        return DIR_OVERFRAME_DATA . '/' . $filename;
+        return dir_overframe_data() . '/' . $filename;
     }
 
 

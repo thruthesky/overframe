@@ -9,7 +9,7 @@
 
 
 <h3>Ajax File Upload</h3>
-<form action="<?php echo sys()->url_ajax_endpoint()?>&do=file-upload" method="post" enctype="multipart/form-data">
+<form action="<?php echo ajax_endpoint()?>&do=file-upload" method="post" enctype="multipart/form-data">
     <input type="hidden" name="code" value="test">
     <input type="hidden" name="unique" value="1">
     <input type="hidden" name="gid" value="<?php echo unique_id()?>">
@@ -52,7 +52,7 @@
     $('body').on('click', '.delete-file', function() {
         var id = $(this).parent().find('img').attr('file-id');
         console.log('id:' + id);
-        $.get("<?php echo sys()->url_ajax_endpoint()?>&do=file-delete&id="+id, function(data) {
+        $.get("<?php echo ajax_endpoint()?>&do=file-delete&id="+id, function(data) {
             var re = JSON.parse(data);
             console.log(re);
             if ( re['code'] ) {
@@ -67,7 +67,7 @@
     $('body').on('click', '.finish-file', function() {
         var id = $(this).parent().find('img').attr('file-id');
         console.log('.finish-file id:' + id);
-        var url = "<?php echo sys()->url_ajax_endpoint()?>&do=file-finish&id="+id;
+        var url = "<?php echo ajax_endpoint()?>&do=file-finish&id="+id;
         console.log(url);
         $.get(url, function(data) {
             var re = JSON.parse(data);

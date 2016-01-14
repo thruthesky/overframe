@@ -201,20 +201,29 @@ function url_overframe() {
     return $url_overframe;
 }
 
-function url_overframe_data($path=null) {
+function url_overframe_data($filename=null) {
 
     if ( sys()->isSapcms1() ) {
         $domain = etc::domain_name();
-        return "http://$domain/data/overframe";
+        return "http://$domain/data/overframe/$filename";
     }
     else if ( sys()->isCodeIgniter3() ) {
         $ci = & get_instance();
         $ci->load->library('url_helper');
-        return base_url('overframe/data');
+        return base_url('overframe/data/') . $filename;
     }
     else return null;
 }
 
+
+function ajax_endpoint() {
+
+    if ( sys()->isSapcms1() ) {
+        $domain = etc::domain_name();
+        return "http://$domain/?module=overframe&action=ajax&submit=1";
+    }
+    else return null;
+}
 
 
 
