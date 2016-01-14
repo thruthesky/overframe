@@ -13,6 +13,19 @@ class Data extends Node {
     }
 
 
+    public function runAjax() {
+        switch( $doing = http_input('what') ) {
+            case 'file-upload' :
+                return data()->ajaxFileUpload();
+            case 'file-delete' :
+                return data()->ajaxFileDelete();
+            case 'file-finish' :
+                return data()->ajaxFileFinish();
+            default :
+                json_error(-40445, 'No what to do');
+                return null;
+        }
+    }
 
     public function upload( $form_name ) {
 
@@ -189,7 +202,7 @@ class Data extends Node {
         else json_success(array('id'=>$this->in['id']));
     }
 
-    private function finish()
+    public function finish()
     {
         sys()->log("Data::finish() : id=" . $this->get('id'));
         if ( $this->is() ) {

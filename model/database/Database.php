@@ -171,6 +171,20 @@ class Database extends DatabaseLayer {
      * @param $type
      * @param int $size
      * @return bool
+     *
+     * @code
+     *
+            $this->init();
+            $this->addColumn($table_name, 'position', 'varchar', 64);
+            $this->addColumn($table_name, 'fid', 'int unsigned');
+            $this->addColumn($table_name, 'active', 'char');
+            $this->addColumn($table_name, 'date_from', 'int unsigned');
+            $this->addColumn($table_name, 'date_to', 'int unsigned');
+            $this->addColumn($table_name, 'subject', 'varchar');
+            $this->addColumn($table_name, 'content', 'text');
+            $this->addColumn($table_name, 'list_order', 'int');
+     *
+     * @endcode
      */
     public function addColumn( $table_name, $field, $type, $size=0, $default='') {
 
@@ -181,10 +195,12 @@ class Database extends DatabaseLayer {
 
         if ( empty($default) ) {
             if ( stripos($type, 'int') !== false ) $default = 0;
+            else if ( stripos($type, 'text') !== false ) $default = 'NULL';
+            else $default = "'$default'";
         }
 
         if ( $size ) $type = "$type($size)";
-        $q = "ALTER TABLE `$table_name` ADD COLUMN `$field` $type DEFAULT '$default'";
+        $q = "ALTER TABLE `$table_name` ADD COLUMN `$field` $type DEFAULT $default";
         return $this->exec($q);
 
     }

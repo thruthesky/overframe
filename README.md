@@ -95,7 +95,55 @@ Ajax 가 아니면 아예 하지를 않는다.
  
 그 endpoint script 는 각 model 의 controller 부분을 wrapping 하여 ajax json 데이터를 바로 출력하도록 한다.
   
-    <?php echo sys()->url_ajax_endpoint()?>&do=행동값
+    <?php echo ajax_endpoint()?>&do=행동값
+
+
+ajax_endpoint() 로 호출한 정보는
+
+Ajax 클래스가 담당한다.
+
+
+## Ajax 처리
+
+파일 업로드나 글 업로드를 할 때, ajax 를 통한 처리 방법을 설명한다.
+
+codeigniter3 나 sapcms1.2 에서 Ajax 를 통한 호출인지 아닌지를 판별한다.
+
+이 것은 HTTP 입력 변수에 action=ajax 와 같이 들어오면 ajax 호출로 인지한다.
+
+그러면 ajax()->run() 을 호출하며
+
+결국 이는 Ajax::run() 을 호출하게 되는데,
+
+이 메소드에서 HTTP 입력 변수 'do' 에 있는 값을 바탕으로 해당 클래스를 호출 한다.
+
+예를 들어 &do=data 와 같이 입력되면
+
+data()->runAjax() 가 호출되며
+
+&do=philgo_banner 와 같이 입력되면
+
+philgo_banner::runAjax() 가 호출된다.
+
+
+따라서 각 모델 별로 Ajax 처리 코드를 작성 할 수 있다.
+
+
+
+
+
+## Template 통한 웹브라우저로 페이지 정보(화면) 출력
+
+모든 처리는 template/overframe-index-page 에서 한다.
+
+@todo @검토 이 template 은 view 로 변경이 되어야 할 것 같다.
+
+
+즉, 스킨을 보여 줄 때에는 template/overframe-index-page 에서 하며
+
+데이터 송/수신은 ajax 로 한다.
+
+
 
 
 ## Data 모듈
@@ -124,5 +172,5 @@ gid 는 주로 unique_id() 로 생성하거나 자바스크립트 등으로 생�
 
 ### File Upload FORM 문장
 
-    <form action="<?php echo sys()->url_ajax_endpoint()?>&do=file-upload" method="post" enctype="multipart/form-data">
+    <form action="<?php echo sys()->url_ajax_endpoint()?>&do=data&what=file-upload" method="post" enctype="multipart/form-data">
     

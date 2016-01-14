@@ -8,7 +8,7 @@ if ( isset($in['name']) ) {
     $func();
 }
 
-echo "<table>";
+echo "<table width='100%'>";
 echo "<tr><th>Name</th><th>status</th><th>Action</th></tr>";
 foreach( sys()->getModels() as $name ) {
 

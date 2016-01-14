@@ -157,19 +157,30 @@ function unique_id()
 $_http_input = array();
 /**
  * @param null $name
+ * @param null $default
  * @return array
  * @code
  *  $in = http_input();
  * @endcode
  */
-function http_input($name = null) {
+function http_input($name = null, $default = null) {
     global $_http_input;
     if ( empty($_http_input) )$_http_input = array_merge($_GET, $_POST);
     if ( $name ) {
         if ( isset( $_http_input[$name] ) ) return $_http_input[$name];
-        else return null;
+        else return $default;
     }
     return $_http_input;
+}
+
+/**
+ * alias of http_input
+ * @param null $name
+ * @param null $default
+ * @return mixed
+ */
+function hi($name = null, $default = null) {
+    return http_input($name, $default);
 }
 
 

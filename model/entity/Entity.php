@@ -233,6 +233,10 @@ class Entity {
     /**
      * @param null $cond - same as database->count()
      * @return mixed
+     *
+     * @code
+     *  $no = data()->count("gid='philgo-banner'");
+     * @endcode
      */
     public function count($cond=null)
     {
