@@ -222,7 +222,11 @@ function url_overframe() {
 
 function url_root() {
     if ( sys()->isSapcms1() ) return '/';
-    else if ( sys()->isCodeIgniter3() ) return base_url();
+    else if ( sys()->isCodeIgniter3() ) {
+        $ci = & get_instance();
+        $ci->load->helper('url');
+        return base_url();
+    }
     else return null;
 }
 
@@ -237,7 +241,7 @@ function url_action() {
         return "http://$domain/?module=overframe&action=index";
     }
     if ( sys()->isCodeIgniter3() ) {
-        return url_root() . '?';
+        return url_root() . '?action=index';
     }
     else return null;
 

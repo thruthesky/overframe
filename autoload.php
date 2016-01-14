@@ -19,5 +19,6 @@ spl_autoload_register( function( $class ) {
 include 'helper.overframe.php';
 include 'config.overframe.php';
 
+
 sys()->log("++ ------------- New connection begins ...");
 sys()->setModelPaths( glob(DIR_OVERFRAME . "/model/*", GLOB_ONLYDIR) );
