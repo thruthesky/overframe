@@ -22,13 +22,14 @@ foreach( sys()->getModels() as $name ) {
         $uninstall = "hook_{$name}_uninstall";
         if ( function_exists($is_installed) ) {
             $re = $is_installed();
+            $url = url_action();
             if ( $re ) {
                 $status = 'installed';
-                $action = "<a href='?action=model_list&do=uninstall&name=$name'>Un-Install</a>";
+                $action = "<a href='$url&do=uninstall&name=$name'>Un-Install</a>";
             }
             else {
                 $status = 'not installed';
-                $action = "<a href='?action=model_list&do=install&name=$name'>Install</a>";
+                $action = "<a href='$url&do=install&name=$name'>Install</a>";
             }
         }
     }

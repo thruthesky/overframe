@@ -226,6 +226,23 @@ function url_root() {
     else return null;
 }
 
+/**
+ *
+ * Url for form submission and data retribution.
+ */
+function url_action() {
+
+    if ( sys()->isSapcms1() ) {
+        $domain = etc::domain_name();
+        return "http://$domain/?module=overframe&action=index";
+    }
+    if ( sys()->isCodeIgniter3() ) {
+        return url_root() . '?';
+    }
+    else return null;
+
+}
+
 function url_overframe_data($filename=null) {
 
     if ( sys()->isSapcms1() ) {
@@ -242,10 +259,9 @@ function url_overframe_data($filename=null) {
 
 
 function ajax_endpoint() {
-
     if ( sys()->isSapcms1() ) {
         $domain = etc::domain_name();
-        return "http://$domain/?module=overframe&action=ajax&submit=1";
+        return "http://$domain/?module=overframe&action=index&mode=ajax&submit=1";
     }
     if ( sys()->isCodeIgniter3() ) {
         return url_root() . '?action=ajax';
