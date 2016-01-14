@@ -102,6 +102,7 @@ class DatabaseTest {
 
         // quote
         $ret_str = $db->quote('str');
+
         test( $ret_str == "'str'" );
 
         // table drop
