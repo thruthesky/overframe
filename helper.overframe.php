@@ -53,6 +53,15 @@ function database() {
     return new Database();
 }
 
+$global_user = null;
+/**
+ * @return of\User
+ */
+function user() {
+    global $global_user ;
+    if ( $global_user  === null ) $global_user = new of\User();
+    return $global_user ;
+}
 
 if ( ! function_exists('di') ) {
     function di($obj) {

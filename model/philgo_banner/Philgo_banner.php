@@ -40,13 +40,14 @@ class Philgo_banner extends Node
         sys()->log('Philgo_banner:;runAjax()');
         sys()->log($in);
 
-        if ( empty(hi('owner') ) ) json_error(-400009, "광고주를 입력하십시오.");
-        if ( empty(hi('code') ) ) json_error(-400009, "광고 위치를 선택하십시오.");
-        //if ( empty(hi('fid') ) ) json_error(-400009, "배너 사진을 올리십시오.");
-        if ( empty(hi('date_from') ) ) json_error(-400009, "광고 시작 날짜를 선택하십시오.");
-        if ( empty(hi('date_to') ) ) json_error(-400009, "광고 끝 날짜를 선택하십시오.");
-        if ( empty(hi('subject') ) ) json_error(-400009, "광고 제목을 입력하십시오.");
-        if ( empty(hi('url') ) ) json_error(-400009, "광고 페이지 URL 을 입력하십시오.");
+        if ( ! hi('owner') ) json_error(-400009, "광고주를 입력하십시오.");
+        if ( ! hi('code') ) json_error(-400009, "광고 위치를 선택하십시오.");
+        //if ( ! hi('fid') ) json_error(-400009, "배너 사진을 올리십시오.");
+        if ( ! hi('date_from') ) json_error(-400009, "광고 시작 날짜를 선택하십시오.");
+        if ( ! hi('date_to') ) json_error(-400009, "광고 끝 날짜를 선택하십시오.");
+        if ( ! hi('subject') ) json_error(-400009, "광고 제목을 입력하십시오.");
+        if ( ! hi('url') ) json_error(-400009, "광고 페이지 URL 을 입력하십시오.");
+
 
         if ( hi('id') ) {
             $banner = new Philgo_banner();
@@ -67,6 +68,7 @@ class Philgo_banner extends Node
 
         $banner
             ->set('position', hi('code'))
+            ->set('fid', hi('fid'))
             ->set('owner', hi('owner'))
             ->set('active', hi('active'))
             ->set('date_from', hi('date_from'))

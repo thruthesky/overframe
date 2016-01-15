@@ -8,6 +8,7 @@ class DatabaseTest {
         $this->crudTable();
         $this->editTable();
         $this->crudRecord();
+        $this->test_table_list();
     }
 
     private function crudTable()
@@ -109,6 +110,16 @@ class DatabaseTest {
         $db->dropTable($name);
         test($db->tableExists($name) == FALSE);
 
+    }
+
+    private function test_table_list()
+    {
+        database()->createTable('abcdef');
+        $tables = database()->getTables();
+        test( in_array('abcdef', $tables) );
+        database()->dropTable('abcdef');
+        $tables = database()->getTables();
+        test( ! in_array('abcdef', $tables) );
     }
 
 }

@@ -29,6 +29,8 @@ Since project is not for the public use, we do not use composer/packagist.org<br
 
 
 
+
+
 ## Unit Test
 Overframe unit test is builtin.<br>
 It is run on web server not on CLI.<br> 
@@ -50,6 +52,16 @@ namespace of;<br>
 as its namespace and use like below.<br>
 
 new \of\Database();<br>
+
+
+
+## 각 Framework 별 설치
+
+새로운 framework 에 적용하기 위해서는
+
+database/DatabaseLayer.php 와 user/UserLayer.php 를 수정해야 한다.
+
+
 
 
 
@@ -179,3 +191,23 @@ gid 는 주로 unique_id() 로 생성하거나 자바스크립트 등으로 생�
 
     <form action="<?php echo sys()->url_ajax_endpoint()?>&do=data&what=file-upload" method="post" enctype="multipart/form-data">
     
+## 사용자 정보
+
+sapcms1.2 나 Drupal8 의 경우에는 사용자 관련 기능이 이미 들어가 있다.
+
+하지만 CodeIgniter3 의 경우 그러한 기본 기능이 없다.
+
+따라서 CodeIgniter3 의 경우 항상 그러한 기능을 추가적으로 만들어야 하는데,
+
+각 CodeIgniter3 마다 모두 틀릴 수 있다.
+
+UserLayer.php (데이터레이어) 를 통해서
+
+User::getLogin(), User::getName(), User::getID(), User::getEmail(), User::isAdmin() 의 메소드를 두고
+
+처리를 한다.
+
+
+    di( user()->getLogin() );
+    di( user()->isAdmin() );
+
