@@ -1,8 +1,19 @@
 <style>
+    [banner-id] {
+        cursor:pointer;
+    }
     .of-row img {
         width:100%;
     }
 </style>
+<script>
+    $(function(){
+        $('[banner-id]').click(function(){
+            var id = $(this).attr('banner-id');
+            location.href='<?php echo url_action()?>&do=philgo-banner&what=upload&id='+id;
+        });
+    });
+</script>
 <?php
 
 $no = data()->count("gid='philgo-banner'");
@@ -29,6 +40,7 @@ $philgo_banner = new \of\Philgo_banner();
 $banners = $philgo_banner->loadAll();
 if ( $banners ) {
     foreach ( $banners as $banner ) {
+        $id = $banner->get('id');
         $subject = $banner->get('subject');
         $img = null;
         if ( $banner->get('fid') ) {
@@ -37,11 +49,18 @@ if ( $banners ) {
                 $img = "<img src='" . $image->get('url') . "'>";
             }
         }
+        $position = $banner->get('position');
+        $date_from = $banner->get('date_from');
+        $date_to = $banner->get('date_to');
         echo "
-    <div>
+    <div class='of-row' banner-id='$id'>
     $subject
     $img
+    <div>
+    $position $date_from ~ $date_to
+</div>
     </div>
+    <hr>
     ";
     }
 }

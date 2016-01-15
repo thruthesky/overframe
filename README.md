@@ -70,6 +70,11 @@ Entity 는 하나의 테이블로서 Entity 를 생성하면 해당 테이블에
 
 
 
+## Model 루틴
+
+각 모델에는 init.php 가 존재하며,
+ 
+overframe 이 시작 될 때, auotoload.php 에서 인클루드되어 실행된다.
 
 
 ## Model 목록/설치/제거

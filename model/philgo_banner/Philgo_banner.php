@@ -42,15 +42,12 @@ class Philgo_banner extends Node
 
         if ( empty(hi('owner') ) ) json_error(-400009, "광고주를 입력하십시오.");
         if ( empty(hi('code') ) ) json_error(-400009, "광고 위치를 선택하십시오.");
-        if ( empty(hi('fid') ) ) json_error(-400009, "배너 사진을 올리십시오.");
+        //if ( empty(hi('fid') ) ) json_error(-400009, "배너 사진을 올리십시오.");
         if ( empty(hi('date_from') ) ) json_error(-400009, "광고 시작 날짜를 선택하십시오.");
         if ( empty(hi('date_to') ) ) json_error(-400009, "광고 끝 날짜를 선택하십시오.");
         if ( empty(hi('subject') ) ) json_error(-400009, "광고 제목을 입력하십시오.");
         if ( empty(hi('url') ) ) json_error(-400009, "광고 페이지 URL 을 입력하십시오.");
 
-        if ( hi('fid') ) {
-            data(hi('fid'))->finish();
-        }
         if ( hi('id') ) {
             $banner = new Philgo_banner();
             $banner->load(hi('id'));
@@ -59,9 +56,17 @@ class Philgo_banner extends Node
             $banner = new Philgo_banner();
             $banner->create();
         }
+
+
+        if ( hi('fid') ) {
+            data(hi('fid'))->finish();
+            $banner->set('fid', hi('fid'));
+        }
+
+
+
         $banner
             ->set('position', hi('code'))
-            ->set('fid', hi('fid'))
             ->set('owner', hi('owner'))
             ->set('active', hi('active'))
             ->set('date_from', hi('date_from'))
