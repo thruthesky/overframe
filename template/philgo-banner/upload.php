@@ -2,7 +2,7 @@
 
 
 $id = hi('id');
-$owner = $code = $date_from = $date_to = $active = $list_order = $subject = $url = '';
+$owner = $code = $date_from = $date_to = $active = $list_order = $subject = $url = $fid = $url_banner = '';
 if ( $id ) {
     $banner = banner($id);
     $owner = $banner->get('owner');
@@ -13,6 +13,9 @@ if ( $id ) {
     $list_order = $banner->get('list_order');
     $subject = $banner->get('subject');
     $url = $banner->get('url');
+    if ( $fid = $banner->get('fid') ) {
+        if ( $data = data($banner->get('fid')) ) $url_banner = $data->get('url');
+    }
 }
 
 
@@ -35,6 +38,12 @@ if ( $id ) {
     .form-submit {
         margin:0 auto;
         width:20em;
+    }
+    .of-row {
+        margin:2em 0;
+    }
+    .form-group.row:after {
+        display:inline-block;
     }
 </style>
 <script src="<?php echo url_overframe()?>/etc/js/jquery.form.min.js"></script>
@@ -67,7 +76,14 @@ if ( $id ) {
 
 
 
-    <div class="display-file"></div>
+    <div class="display-file">
+        <?php if ( $url_banner ) { ?>
+            <img width='100%' file-id='<?php echo $fid?>' src='<?php echo $url_banner?>'>
+            <hr>
+            <span class='delete-file btn btn-danger'>배너 삭제</span>
+        <?php } ?>
+    </div>
+
     <div class="of-row form-group row">
         <label for="userfile" class="col-sm-3 form-control-label">배너</label>
         <div class="filebox col-sm-8">
@@ -157,6 +173,7 @@ if ( $id ) {
 
     function on_change_file_upload(filebox) {
         var $filebox = $(filebox);
+        if ( $filebox.val() == '' ) return;
         var $form = $filebox.parents("form");
 
         $form.ajaxSubmit({
@@ -165,14 +182,16 @@ if ( $id ) {
                 console.log("ERROR on ajaxSubmit() ...");
             },
             complete: function (xhr) {
+
                 console.log("File upload completed through jquery.form.js");
                 var re;
                 try {
                     re = JSON.parse(xhr.responseText);
                 }
                 catch (e) {
-                    console.log("ERROR: Failed on file upload...");
-                    $form.after().html(xhr.responseText);
+                    //alert("ERROR: JSON.parse() error : Failed on file upload...");
+                    //$form.after().html(xhr.responseText);
+                    return;
                 }
 
                 if ( re['code'] ) {

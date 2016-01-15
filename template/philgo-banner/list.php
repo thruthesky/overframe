@@ -3,8 +3,9 @@
         cursor:pointer;
     }
     .of-row img {
-        width:100%;
+        max-width:100%;
     }
+
 </style>
 <script>
     $(function(){
@@ -45,9 +46,10 @@ if ( $banners ) {
         $img = null;
         if ( $banner->get('fid') ) {
             $image = data($banner->get('fid'));
-            if ( $image->is() ) {
+            if ( $image ) {
                 $img = "<img src='" . $image->get('url') . "'>";
             }
+            else $img = null;
         }
         $position = $banner->get('position');
         $date_from = $banner->get('date_from');

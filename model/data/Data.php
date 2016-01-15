@@ -116,9 +116,9 @@ class Data extends Node {
      * @return Entity
      */
     public function load($id, $fields='*') {
-        //sys()->log("Data::load($id)");
+        sys()->log("Data::load($id)");
         $data = parent::load($id, $fields);
-        if ( $data->is() ) {
+        if ( $data && $data->is() ) {
             $data->set( 'url', url_overframe_data($this->get('name_saved')) );
             $data->set( 'path', $this->path( $this->get('name_saved') ) );
         }
@@ -184,6 +184,7 @@ class Data extends Node {
     public function ajaxFileUpload()
     {
         $re = $this->upload('userfile');
+        sys()->log("Data::ajaxFileUpload() : after this->upload() : re=$re");
         if ( $re < 0 ) json_error( $re, data()->getErrorString($re) );
         else json_success( data()->load($re)->getRecord() );
     }
