@@ -13,6 +13,16 @@ Overframe is a framewhich runs upon other frameworks like codeigniter, laravel, 
  module_meta_entity 에는 어떤 모듈이 설치되었는지 표시를 하고,
  설치된 모듈의 경우에는 메뉴를 관리자 페이지에 표시 할 수 있도록 한다.
  
+* 뷰(스킨, 테마)가 필요 없는 모듈의 경우, 모듈 내에서 모든 것을 다 처리 할 수 있도록 한다.
+
+template() 을 호출 할 때, 템플릿 폴더에 데이터가 없으면 모듈 폴더에서 템플릿을 찾는다.
+
+
+* 뷰와 컨트롤러 기능을 추가한다.
+
+현재 template 이 뷰와 컨트롤러 역활을 하는데, 이를 변경한다.
+
+
 
 
  
