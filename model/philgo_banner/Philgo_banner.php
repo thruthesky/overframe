@@ -36,9 +36,66 @@ class Philgo_banner extends Node
 
 
     public function runAjax() {
+
         $in = http_input();
         sys()->log('Philgo_banner:;runAjax()');
         sys()->log($in);
+
+        if ( $in['what'] == 'upload' ) $this->ajaxUpload();
+        else if ( $in['what'] == 'delete') $this->ajaxDelete();
+
+    }
+
+    public function hasAccess()
+    {
+        $id = user()->getID();
+        if ( user()->isAdmin() || $id == 'thruthesky' || $id == 'adman' ) return true;
+        else return false;
+    }
+
+    /**
+     *
+     * 등록된 배너를 리턴한다.
+     *
+     * @param $position
+     * @return array
+     * @code 특정 position 의 배너를 얻기
+     * $banners = banner()->getBanners("main-center");
+     * di($banners);
+     * @endcode
+     *
+     * @code 쿼리를 통한 배너를 얻기. * 입력 파라메타에 공백이 있으면 쿼리로 인식.
+         $banners = banner()->getBanners("position='main-center' and active<>'N' order by list_order desc limit 10");
+         di(count($banners));
+     * @endcode
+     *
+     * @code 진행 중인 광고 목록 얻기
+        $today = date('Y-m-d');
+        $banners = banner()->getBanners("position='main-center' AND active<>'N' AND date_from<='$today' AND date_to>='$today' order by list_order desc limit 10");
+        di(count($banners));
+     * @endcode
+     *
+     */
+    public function getBanners($position)
+    {
+        if ( strpos($position, ' ') ) $banners = $this->loadQuery("$position");
+        else $banners = $this->loadQuery("position='$position'");
+        if ( $banners ) {
+            foreach( $banners as $banner ) {
+                $fid = $banner->get('fid');
+                if ( $fid ) {
+                    $image = data($fid);
+                    if ( $image ) {
+                        $banner->set('url_image', $image->get('url'));
+                    }
+                }
+            }
+        }
+        return $banners;
+    }
+
+    private function ajaxUpload()
+    {
 
         if ( ! hi('owner') ) json_error(-400009, "광고주를 입력하십시오.");
         if ( ! hi('code') ) json_error(-400009, "광고 위치를 선택하십시오.");
@@ -75,42 +132,29 @@ class Philgo_banner extends Node
             ->set('url', hi('url'))
             ->save();
         json_success(array('id'=>$banner->get('id')));
+
     }
 
-    public function hasAccess()
+    private function ajaxDelete()
     {
-        $id = user()->getID();
-        if ( user()->isAdmin() || $id == 'thruthesky' || $id == 'adman' ) return true;
-        else return false;
-    }
-
-    /**
-     *
-     * 등록된 배너를 리턴한다.
-     *
-     * @param $position
-     * @return array
-     * @code 특정 position 의 배너를 얻기
-     * $banners = banner()->getBanners("main-center");
-     * di($banners);
-     * @endcode
-     *
-     * @code 쿼리를 통한 배너를 얻기. * 입력 파라메타에 공백이 있으면 쿼리로 인식.
-         $banners = banner()->getBanners("position='main-center' and active<>'N' order by list_order desc limit 10");
-         di(count($banners));
-     * @endcode
-     *
-     * @code 진행 중인 광고 목록 얻기
-        $today = date('Y-m-d');
-        $banners = banner()->getBanners("position='main-center' AND active<>'N' AND date_from<='$today' AND date_to>='$today' order by list_order desc limit 10");
-        di(count($banners));
-     * @endcode
-     *
-     */
-    public function getBanners($position)
-    {
-        if ( strpos($position, ' ') ) return $this->loadQuery("$position");
-        else return $this->loadQuery("position='$position'");
+        $id = http_input('id', 0);
+        if ( $id ) {
+            $banner = $this->load($id);
+            if ( $banner ) {
+                $fid = $banner->get('fid');
+                if ( $fid ) {
+                    $data = data($fid);
+                    if ( $data ) {
+                        $data->delete();
+                    }
+                }
+                $banner->delete();
+                json_success( array('id'=>$id ));
+            }
+            else json_error(-1235, 'No banner by that id');
+        }
+        else json_error(-1234, 'No id provided');
     }
 
 }
+

@@ -9,9 +9,24 @@
 </style>
 <script>
     $(function(){
-        $('[banner-id]').click(function(){
-            var id = $(this).attr('banner-id');
+        $('[banner-id] .content').click(function(){
+            var id = $(this).parent().attr('banner-id');
             location.href='<?php echo url_action()?>&do=philgo-banner&what=upload&id='+id;
+        });
+        $('.delete-banner').click(function(e){
+            e.preventDefault();
+            var re = confirm('정말 삭제하시겠습니까?');
+            if ( re ) {
+                var id = $(this).parent().attr('banner-id');
+                var url = "<?php echo ajax_endpoint()?>&do=philgo_banner&what=delete&id="+id;
+                console.log(url);
+                $.get(url, function(re){
+                    if ( re['code'] ) return alert( re['message'] );
+                    var id = re['data']['id'];
+                    $("[banner-id='"+id+"']").hide(300);
+
+                }, 'json');
+            }
         });
     });
 </script>
@@ -20,7 +35,13 @@
 $no = data()->count("gid='philgo-banner'");
 ?>
 
-You have <?php echo $no?> banners.
+<div class="of-row">
+    <ul>
+        <li><?php echo $no?> 개의 배너가 등록되어져 있습니다.</li>
+        <li>배너 제목을 클릭하면 수정합니다.</li>
+        </ul>
+
+</div>
 
 
 
@@ -56,11 +77,16 @@ if ( $banners ) {
         $date_to = $banner->get('date_to');
         echo "
     <div class='of-row' banner-id='$id'>
-    $subject
-    $img
-    <div>
-    $position $date_from ~ $date_to
-</div>
+        <div class='content'>
+            $subject
+            $img
+            <div>
+                $position $date_from ~ $date_to
+            </div>
+        </div>
+        <div class='delete-banner'>
+            <span class='btn btn-warning'>삭제</span> 배너를 삭제합니다.
+        </div>
     </div>
     <hr>
     ";

@@ -8,10 +8,10 @@
     }
 </style>
 
-
-<a href="<?php echo url_action()?>&do=philgo-banner&what=list">배너 목록</a> |
-<a href="<?php echo url_action()?>&do=philgo-banner&what=upload">배너 등록</a>
-
+<div class="of-page">
+<a class="btn btn-secondary" href="<?php echo url_action()?>&do=philgo-banner&what=list">배너 목록</a> |
+<a class="btn btn-secondary" href="<?php echo url_action()?>&do=philgo-banner&what=upload">배너 등록</a>
+</div>
 
 
 <?php

@@ -80,7 +80,7 @@ if ( $id ) {
         <?php if ( $url_banner ) { ?>
             <img width='100%' file-id='<?php echo $fid?>' src='<?php echo $url_banner?>'>
             <hr>
-            <span class='delete-file btn btn-danger'>배너 삭제</span>
+            <span class='delete-file btn btn-danger'>광고 배너 이미지 삭제</span>
         <?php } ?>
     </div>
 
