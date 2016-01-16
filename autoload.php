@@ -1,5 +1,6 @@
 <?php
 
+
 spl_autoload_register( function( $class ) {
     if ( strpos( $class, 'of\\') !== false ) {
         $class_name = str_replace('of\\', '', $class);
@@ -12,7 +13,7 @@ spl_autoload_register( function( $class ) {
         else {
             $model_name = strtolower($class_name);
         }
-        include "model\\$model_name\\$class_name.php";
+        include __DIR__ . "/model/$model_name/$class_name.php";
     }
 } );
 

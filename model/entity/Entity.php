@@ -6,7 +6,7 @@ namespace of;
 class Entity {
     private $table;
     private $db = null;
-    protected $record = [];
+    protected $record = array();
 
     public function __construct()
     {
@@ -147,7 +147,7 @@ class Entity {
      */
     public function delete() {
         $this->db->delete($this->getTableName(), "id=" . self::get('id'));
-        $this->record = [];
+        $this->record = array();
     }
     public function deleteEntities( array $entities = array () ) {
         if ( empty($entities ) ) return;
@@ -163,7 +163,7 @@ class Entity {
      * @return $this
      */
     private function reset() {
-        $this->record = [];
+        $this->record = array();
         self::set('created', time());
         self::set('updated', 0);
         return $this;

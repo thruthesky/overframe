@@ -75,8 +75,8 @@ class Database extends DatabaseLayer {
      */
     public function insert($table, array $keys_and_values)
     {
-        $key_list = [];
-        $value_list = [];
+        $key_list = array();
+        $value_list = array();
         foreach($keys_and_values as $k => $v ) {
             $key_list[] = "`$k`";
 
@@ -107,7 +107,7 @@ class Database extends DatabaseLayer {
      */
     public function update($table_name, $fields, $cond=null)
     {
-        $sets = [];
+        $sets = array();
         foreach($fields as $k => $v) {
             $sets[] = "`$k`=" . $this->quote($v);
         }

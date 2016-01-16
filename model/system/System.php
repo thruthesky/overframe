@@ -10,7 +10,7 @@ class System {
     static $count_log = 0;
 
 
-    static $list_model = [];
+    static $list_model = array();
 
     public function __construct()
     {
