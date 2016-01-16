@@ -206,8 +206,9 @@ class EntityTest extends Entity
             $first = array_shift($entities);
             test($first);
             if ( $first ) {
-                test( isset($first->getRecord()['address']) );
-                test( ! isset($first->getRecord()['name']) );
+                $re = $first->getRecord();
+                test( isset($re['address']) );
+                test( ! isset($re['name']) );
             }
         }
         $entity->uninit();
