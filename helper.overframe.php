@@ -143,10 +143,12 @@ function page_no($no) {
 
 function path_run($n = 1) {
 
-    $func = debug_backtrace()[$n]['function'];
-    $cls = debug_backtrace()[$n]['class'];
-    $file = debug_backtrace()[$n]['file'];
-    $line = debug_backtrace()[$n]['line'];
+    $d = debug_backtrace();
+
+    $func = $d[$n]['function'];
+    $cls = $d[$n]['class'];
+    $file = $d[$n]['file'];
+    $line = $d[$n]['line'];
 
     return "$file at line $line - $cls::$func";
 }
