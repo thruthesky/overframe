@@ -8,12 +8,11 @@
     }
 </style>
 
-<h1 class="display-5">Philgo Banner</h1>
-<p class="lead">
-    <a class='btn btn-secondary' href="<?php echo url_action()?>&do=philgo-banner&what=list">List</a>
-    <a class='btn btn-secondary' href="<?php echo url_action()?>&do=philgo-banner&what=upload">Upload</a>
-</p>
-<hr class="m-y-2">
+
+<a href="<?php echo url_action()?>&do=philgo-banner&what=list">배너 목록</a> |
+<a href="<?php echo url_action()?>&do=philgo-banner&what=upload">배너 등록</a>
+
+
 
 <?php
 $what = http_input('what', 'list');

@@ -7,9 +7,23 @@ Overframe is a framewhich runs upon other frameworks like codeigniter, laravel, 
 
 ## TODO
 
-* Customize database class to use the active database connect of parent framework. This is the key point why it is overframe.
-* Database.php 에는 최소한의 코드만 두어야 각 프레임의 DB 를 쉽게 활용 할 수 있다.
-query 함수 하나면 insert, select, update, delete, table create, update, delete 다 할 수 있다.
+* 기본 설치를 할 수 있도록 한다.
+ 설치를 하면 config_meta_entity, module_meta_entity 를 설치한다.
+ config_meta_entity 에는
+ module_meta_entity 에는 어떤 모듈이 설치되었는지 표시를 하고,
+ 설치된 모듈의 경우에는 메뉴를 관리자 페이지에 표시 할 수 있도록 한다.
+ 
+* 뷰(스킨, 테마)가 필요 없는 모듈의 경우, 모듈 내에서 모든 것을 다 처리 할 수 있도록 한다.
+
+template() 을 호출 할 때, 템플릿 폴더에 데이터가 없으면 모듈 폴더에서 템플릿을 찾는다.
+
+
+* 뷰와 컨트롤러 기능을 추가한다.
+
+현재 template 이 뷰와 컨트롤러 역활을 하는데, 이를 변경한다.
+
+
+
 
  
 
@@ -41,6 +55,13 @@ To run the unit test, input this code where ever you want.
 	?>
 
 
+## 각종 경로
+
+각 framework 마다 시작페이지(메인페이지, front page)가 틀릴 수 있다.
+
+아래와 같이 url_action() 함수가 각 시작 페이지 URL 을 리턴한다.
+
+    <a href="<?php echo url_action(); ?>">HOME</a>
 
 
 ## autoload
@@ -82,6 +103,11 @@ Entity 는 하나의 테이블로서 Entity 를 생성하면 해당 테이블에
 
 
 
+## Model 루틴
+
+각 모델에는 init.php 가 존재하며,
+ 
+overframe 이 시작 될 때, auotoload.php 에서 인클루드되어 실행된다.
 
 
 ## Model 목록/설치/제거

@@ -271,11 +271,12 @@ class Entity {
      * @endcode
      */
     public function load($id, $fields='*') {
-        //sys()->log("Entity::load($id)");
+        sys()->log("Entity::load($id, $fields)");
         if ( is_numeric($id) ) $where = "WHERE id=$id";
         else $where = "WHERE $id";
         if ( empty($fields) ) $fields = '*';
         $row = $this->db->row("SELECT $fields FROM " . $this->getTableName() . " $where");
+        //sys()->log($row);
         $this->record = $row;
         if ( $this->record ) {
             return clone $this;

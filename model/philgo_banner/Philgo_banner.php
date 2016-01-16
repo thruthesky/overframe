@@ -42,15 +42,13 @@ class Philgo_banner extends Node
 
         if ( ! hi('owner') ) json_error(-400009, "광고주를 입력하십시오.");
         if ( ! hi('code') ) json_error(-400009, "광고 위치를 선택하십시오.");
-        if ( ! hi('fid') ) json_error(-400009, "배너 사진을 올리십시오.");
+        //if ( ! hi('fid') ) json_error(-400009, "배너 사진을 올리십시오.");
         if ( ! hi('date_from') ) json_error(-400009, "광고 시작 날짜를 선택하십시오.");
         if ( ! hi('date_to') ) json_error(-400009, "광고 끝 날짜를 선택하십시오.");
         if ( ! hi('subject') ) json_error(-400009, "광고 제목을 입력하십시오.");
         if ( ! hi('url') ) json_error(-400009, "광고 페이지 URL 을 입력하십시오.");
 
-        if ( hi('fid') ) {
-            data(hi('fid'))->finish();
-        }
+
         if ( hi('id') ) {
             $banner = new Philgo_banner();
             $banner->load(hi('id'));
@@ -59,9 +57,15 @@ class Philgo_banner extends Node
             $banner = new Philgo_banner();
             $banner->create();
         }
+
+
+        if ( hi('fid') ) {
+            data(hi('fid'))->finish();
+            $banner->set('fid', hi('fid'));
+        }
+
         $banner
             ->set('position', hi('code'))
-            ->set('fid', hi('fid'))
             ->set('owner', hi('owner'))
             ->set('active', hi('active'))
             ->set('date_from', hi('date_from'))
@@ -71,6 +75,42 @@ class Philgo_banner extends Node
             ->set('url', hi('url'))
             ->save();
         json_success(array('id'=>$banner->get('id')));
+    }
+
+    public function hasAccess()
+    {
+        $id = user()->getID();
+        if ( user()->isAdmin() || $id == 'thruthesky' || $id == 'adman' ) return true;
+        else return false;
+    }
+
+    /**
+     *
+     * 등록된 배너를 리턴한다.
+     *
+     * @param $position
+     * @return array
+     * @code 특정 position 의 배너를 얻기
+     * $banners = banner()->getBanners("main-center");
+     * di($banners);
+     * @endcode
+     *
+     * @code 쿼리를 통한 배너를 얻기. * 입력 파라메타에 공백이 있으면 쿼리로 인식.
+         $banners = banner()->getBanners("position='main-center' and active<>'N' order by list_order desc limit 10");
+         di(count($banners));
+     * @endcode
+     *
+     * @code 진행 중인 광고 목록 얻기
+        $today = date('Y-m-d');
+        $banners = banner()->getBanners("position='main-center' AND active<>'N' AND date_from<='$today' AND date_to>='$today' order by list_order desc limit 10");
+        di(count($banners));
+     * @endcode
+     *
+     */
+    public function getBanners($position)
+    {
+        if ( strpos($position, ' ') ) return $this->loadQuery("$position");
+        else return $this->loadQuery("position='$position'");
     }
 
 }

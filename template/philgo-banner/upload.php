@@ -1,3 +1,26 @@
+<?php
+
+
+$id = hi('id');
+$owner = $code = $date_from = $date_to = $active = $list_order = $subject = $url = $fid = $url_banner = '';
+if ( $id ) {
+    $banner = banner($id);
+    $owner = $banner->get('owner');
+    $code = $banner->get('position');
+    $date_from = $banner->get('date_from');
+    $date_to = $banner->get('date_to');
+    $active = $banner->get('active');
+    $list_order = $banner->get('list_order');
+    $subject = $banner->get('subject');
+    $url = $banner->get('url');
+    if ( $fid = $banner->get('fid') ) {
+        if ( $data = data($banner->get('fid')) ) $url_banner = $data->get('url');
+    }
+}
+
+
+
+?>
 <style>
     [name="code"] {
         padding:.6em;
@@ -16,11 +39,17 @@
         margin:0 auto;
         width:20em;
     }
+    .of-row {
+        margin:2em 0;
+    }
+    .form-group.row:after {
+        display:inline-block;
+    }
 </style>
 <script src="<?php echo url_overframe()?>/etc/js/jquery.form.min.js"></script>
 <form class='philgo-banner-form' action="<?php echo ajax_endpoint()?>&do=data&what=file-upload" method="post" enctype="multipart/form-data">
 
-    <input type="hidden" name="id" value="">
+    <input type="hidden" name="id" value="<?php echo $id?>">
     <input type="hidden" name="fid" value="">
     <input type="hidden" name="gid" value="philgo-banner">
 
@@ -28,7 +57,7 @@
     <div class="of-row form-group row">
         <label for="owner" class="col-sm-3 form-control-label">광고주</label>
         <div class="col-sm-8">
-            <input type="text" name="owner" id="owner" class="form-control">
+            <input type="text" name="owner" id="owner" class="form-control" value="<?php echo $owner?>">
         </div>
     </div>
 
@@ -39,15 +68,22 @@
         <div class="col-sm-8">
             <select name="code" class="form-control">
                 <option value="">광고 위치를 선택하십시오.</option>
-                <option value="main-center">메인 중간 배너 너비 500</option>
-                <option value="mobile-second">모바일 상단 두번째 줄 배너</option>
+                <option value="main-center" <?php if ( $code == 'main-center' ) echo 'selected=1'?>>메인 중간 배너 너비 500</option>
+                <option value="mobile-second" <?php if ( $code == 'mobile-second' ) echo 'selected=1'?>>모바일 상단 두번째 줄 배너</option>
             </select>
         </div>
     </div>
 
 
 
-    <div class="display-file"></div>
+    <div class="display-file">
+        <?php if ( $url_banner ) { ?>
+            <img width='100%' file-id='<?php echo $fid?>' src='<?php echo $url_banner?>'>
+            <hr>
+            <span class='delete-file btn btn-danger'>배너 삭제</span>
+        <?php } ?>
+    </div>
+
     <div class="of-row form-group row">
         <label for="userfile" class="col-sm-3 form-control-label">배너</label>
         <div class="filebox col-sm-8">
@@ -58,7 +94,7 @@
     <div class="of-row form-group row">
         <label for="date_from" class="col-sm-3 form-control-label">광고 시작 날짜</label>
         <div class="col-sm-8">
-            <input type="date" name="date_from" id="date_from" class="form-control">
+            <input type="date" name="date_from" id="date_from" class="form-control" value="<?php echo $date_from?>">
         </div>
     </div>
 
@@ -66,7 +102,7 @@
     <div class="of-row form-group row">
         <label for="date_to" class="col-sm-3 form-control-label">광고 끝 날짜</label>
         <div class="col-sm-8">
-            <input type="date" name="date_to" id="date_to" class="form-control">
+            <input type="date" name="date_to" id="date_to" class="form-control" value="<?php echo $date_to?>">
         </div>
     </div>
 
@@ -75,7 +111,7 @@
         <div class="col-sm-8">
             <div class="checkbox">
                 <label>
-                    <input type="checkbox" name="active" value="N"> 광고를 표시 하지 않습니다.
+                    <input type="checkbox" name="active" value="N" <?php if ( $active == 'N' ) echo 'checked=1'?>> 광고를 표시 하지 않습니다.
                 </label>
             </div>
         </div>
@@ -86,7 +122,7 @@
     <div class="of-row form-group row">
         <label for="list_order" class="col-sm-3 form-control-label">광고 표시 순서</label>
         <div class="col-sm-8">
-            <input type="number" name="list_order" id="list_order" class="form-control" min="0" max="99" value="0">
+            <input type="number" name="list_order" id="list_order" class="form-control" min="0" max="99" value="<?php echo $list_order?>">
         </div>
     </div>
 
@@ -96,7 +132,7 @@
     <div class="of-row form-group row">
         <label for="subject" class="col-sm-3 form-control-label">제목</label>
         <div class="col-sm-8">
-            <input type="text" name="subject" id="subject" class="form-control">
+            <input type="text" name="subject" id="subject" class="form-control" value="<?php echo $subject?>">
         </div>
     </div>
 
@@ -105,7 +141,7 @@
     <div class="of-row form-group row">
         <label for="url" class="col-sm-3 form-control-label">광고 페이지 URL</label>
         <div class="col-sm-8">
-            <input type="text" name="url" id="url" class="form-control">
+            <input type="text" name="url" id="url" class="form-control" value="<?php echo $url?>">
         </div>
     </div>
 
@@ -137,6 +173,7 @@
 
     function on_change_file_upload(filebox) {
         var $filebox = $(filebox);
+        if ( $filebox.val() == '' ) return;
         var $form = $filebox.parents("form");
 
         $form.ajaxSubmit({
@@ -145,14 +182,16 @@
                 console.log("ERROR on ajaxSubmit() ...");
             },
             complete: function (xhr) {
+
                 console.log("File upload completed through jquery.form.js");
                 var re;
                 try {
                     re = JSON.parse(xhr.responseText);
                 }
                 catch (e) {
-                    console.log("ERROR: Failed on file upload...");
-                    $form.after().html(xhr.responseText);
+                    //alert("ERROR: JSON.parse() error : Failed on file upload...");
+                    //$form.after().html(xhr.responseText);
+                    return;
                 }
 
                 if ( re['code'] ) {

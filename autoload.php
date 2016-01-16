@@ -22,3 +22,8 @@ include 'config.overframe.php';
 
 sys()->log("++ ------------- New connection begins ...");
 sys()->setModelPaths( glob(DIR_OVERFRAME . "/model/*", GLOB_ONLYDIR) );
+
+foreach ( sys()->getModelPaths() as $path ) {
+    $init = "$path/init.php";
+    if ( file_exists($init) ) include $init;
+}

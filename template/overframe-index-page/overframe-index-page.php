@@ -6,34 +6,31 @@
 $url = url_action();
 
 ?>
-
+<style>
+    .of-page > nav {
+        margin-bottom:1em;
+    }
+</style>
 <div class="of-page">
-    <nav class="navbar navbar-light bg-faded">
-        <div class="nav navbar-nav">
-            <a class="nav-item nav-link active" href="#">Overframe
+    <nav>
+            <a class="btn btn-primary" href="<?php echo url_action(); ?>">Overframe
                 <?php echo sys()->name()?>
-                <span class="sr-only">(current)</span>
             </a>
 
-
-            <a class="nav-item nav-link" href="<?php echo $url?>">Home</a>
             <?php if ( user()->isAdmin() ) { ?>
 
-                <a class="nav-item nav-link" href="<?php echo $url?>&do=test">Test</a>
-                <a class="nav-item nav-link" href="<?php echo $url?>&do=model-list">Model List</a>
-                <a class="nav-item nav-link" href="<?php echo $url?>&do=entity-list">Entity List</a>
-                <a class="nav-item nav-link" href="<?php echo $url?>&do=file-upload-test">File Upload Test</a>
+                <a class="btn btn-secondary" href="<?php echo $url?>&do=test">Test</a>
+                <a class="btn btn-secondary" href="<?php echo $url?>&do=model-list">Model List</a>
+                <a class="btn btn-secondary" href="<?php echo $url?>&do=entity-list">Entity List</a>
+                <a class="btn btn-secondary" href="<?php echo $url?>&do=file-upload-test">File Upload Test</a>
 
             <?php } ?>
 
-            <?php if ( user()->hasAccess() ) { ?>
-                <a class="nav-item nav-link" href="<?php echo $url?>&do=philgo-banner">Banner</a>
+            <?php if ( banner()->hasAccess() ) { ?>
+                <a class="btn btn-secondary" href="<?php echo $url?>&do=philgo-banner">배너</a>
             <?php } ?>
 
-
-        </div>
     </nav>
-
 
     <div class="of-content jumbotron">
         <?php
