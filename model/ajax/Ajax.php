@@ -12,6 +12,7 @@ class Ajax {
             case 'file-finish' : return data()->ajaxFileFinish();
             */
             default:
+                $doing = ucfirst($doing);
                 $name = "of\\$doing";
                 $obj = new $name();
                 $obj->runAjax();
