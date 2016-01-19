@@ -1,18 +1,28 @@
 <?php
 
 namespace of;
+/**
+ * Class Ajax
+ * @package of
+ *
+ * @code do 다음에 점을 찍으면 모델 이름과 클래스 이름이 된다.
+ *
+    <?php echo ajax_endpoint()?>&do=entity.ItemList
+ *
+ * @endcode
+ */
 class Ajax {
     public function run() {
         header('Access-Control-Allow-Origin: *');
 
         switch( $doing = http_input('do') ) {
-            /*
-            case 'file-upload' : return data()->ajaxFileUpload();
-            case 'file-delete' : return data()->ajaxFileDelete();
-            case 'file-finish' : return data()->ajaxFileFinish();
-            */
             default:
-                $doing = ucfirst($doing);
+                if ( strpos($doing, '.') ) {
+                    $doing = str_replace('.', '\\', $doing);
+                }
+                else {
+                    $doing = ucfirst($doing);
+                }
                 $name = "of\\$doing";
                 $obj = new $name();
                 $obj->runAjax();

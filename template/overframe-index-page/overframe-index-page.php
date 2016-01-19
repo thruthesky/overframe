@@ -17,16 +17,13 @@ $url = url_action();
                 <?php echo sys()->name()?>
             </a>
 
-            <?php if ( user()->isAdmin() ) { ?>
-
+            <?php if ( isLocalhost() || user()->isAdmin() ) { ?>
                 <a class="btn btn-secondary" href="<?php echo $url?>&do=test">Test</a>
                 <a class="btn btn-secondary" href="<?php echo $url?>&do=model-list">Model List</a>
                 <a class="btn btn-secondary" href="<?php echo $url?>&do=entity-list">Entity List</a>
                 <a class="btn btn-secondary" href="<?php echo $url?>&do=file-upload-test">File Upload Test</a>
-
             <?php } ?>
-
-            <?php if ( banner()->hasAccess() ) { ?>
+            <?php if ( isLocalhost() || banner()->hasAccess() ) { ?>
                 <a class="btn btn-secondary" href="<?php echo $url?>&do=philgo-banner">배너</a>
             <?php } ?>
 

@@ -257,7 +257,6 @@ function url_root() {
  * Url for form submission and data retribution.
  */
 function url_action() {
-
     if ( sys()->isSapcms1() ) {
         $domain = etc::domain_name();
         return "http://$domain/?module=overframe&action=index";
@@ -266,11 +265,9 @@ function url_action() {
         return url_root() . '?action=index';
     }
     else return null;
-
 }
 
 function url_overframe_data($filename=null) {
-
     if ( sys()->isSapcms1() ) {
         $domain = etc::domain_name();
         return "http://$domain/data/overframe/$filename";
@@ -300,4 +297,11 @@ function ajax_endpoint() {
 function path_debug_log()
 {
     return dir_overframe_data() . '/overframe.debug.log';
+}
+
+
+function isLocalhost() {
+    if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') return true;
+
+    else return false;
 }
