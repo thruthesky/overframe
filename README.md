@@ -27,16 +27,25 @@ template() 을 호출 할 때, 템플릿 폴더에 데이터가 없으면 모듈
 
  
 
-## installation
+## installation 설치
+
 git submodule add https://github.com/thruthesky/overframe
 
-for sapcms_1_2, add it into root/etc folder.<br>
-for codeigniter3, add it into root folder.
+루트 폴더에 설치해야 한다.
+
+    * autoload.php 가 정상동작을 하기 위해서는 루트 폴더에 설치를 할 필요가 있다.
 
 
-### git sub-module
+### git sub-module 로만 진행. packagist 로는 하지 않음.
 
 Since project is not for the public use, we do not use composer/packagist.org<br>
+
+
+### sapcms 1.2 에 설치 후 관리 페이지 ( Dash Board )
+
+    /?module=overframe&action=index
+
+sapcms 1.2 의 관리자 아이디로 접속을 하면 각종 메뉴를 볼 수 있다.
 
 
 
