@@ -31,6 +31,9 @@ class Philgo_attend extends Node
 
 
     // create attend record.
+    /**
+     *
+     */
     public function attend() {
 
         $id = user()->getID();
