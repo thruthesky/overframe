@@ -1,11 +1,11 @@
 <?php
-
+use of\philgo_attend\Philgo_attend;
 
 
 /**
- * @return \of\Philgo_banner
+ * @return of\philgo_attend\Philgo_attend;
  */
 function attend() {
-    return new \of\Philgo_attend();
+    return new Philgo_attend();
 }
 
