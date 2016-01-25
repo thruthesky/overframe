@@ -25,7 +25,7 @@ foreach( sys()->getModels() as $name ) {
             $url = url_action();
             if ( $re ) {
                 $status = 'installed';
-                $action = "<a href='$url&do=uninstall&name=$name'>Un-Install</a>";
+                $action = "<a href='$url&do=uninstall&name=$name' onclick='return confirm(\"Are you sure you want to delete $name entity and its records?\");'>Un-Install</a>";
             }
             else {
                 $status = 'not installed';

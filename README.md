@@ -48,6 +48,48 @@ Since project is not for the public use, we do not use composer/packagist.org<br
 sapcms 1.2 의 관리자 아이디로 접속을 하면 각종 메뉴를 볼 수 있다.
 
 
+## 코딩
+
+
+### 접속 경로
+
+모든 접속 경로는 아래와 같다.
+
+    /?module=overframe&action=index
+
+오직 위 경로만 사용한다.
+
+
+위 경로로 접속하는 경우 root/overframe/template/sapcms1/sapcms1.php 가 실행되며 모든 작업을 이 스크립트에서 진행한다.
+
+단, mode 가 'ajax' 인 경우에는 root/overframe/model/ajax/Ajax.php 의 run() 함수가 모든 작업을 맡아서 한다.
+
+mode=ajax 인 경우 리턴되는 값은 ajax 이다.
+
+mode=ajax 인 경우,
+
+실행(쿼리)를 위한 condition 값이 필요한데 'model' 이 그 역활을 한다.
+
+( 2016년 1월 25일 이전에는 'do', 'what' 으로 했다. )
+
+model 의 3 개의 경로 값을 점(.)으로 분리하여 가지며
+
+예를 들어 &model=entity.ItemList.collect 와 같이 하면
+ 
+autoload.php 에 따라서 적절한 namespace 의 ItemList.php 를 로드하고
+
+object 를 생성한 다음 collect() 메소드를 호출한다.
+
+
+다음은 http://philgo.org/?module=overframe&action=index&model=entity.ItemList.collect 와 같이 접속을 한 경우,
+ 
+실행되는 최종 collect() 메소드이다.
+
+예제) root/overframe/entity/ItemList.php 의 collect() 메소드. 
+
+    public function collect() {
+        json_success(array());
+    }
 
 
 
@@ -177,6 +219,13 @@ philgo_banner::runAjax() 가 호출된다.
 
 
 
+## model 처리
+
+2016년 1월 25일 이후부터는 기존의 "Ajax" 방식 보다는 좀 더 유연한
+
+"Model" 직접 호출 방식을 사용하며,
+
+또한 entity/ItemList.php 의 collect() 를 사용해서 보다 범용적이며 유연한 방식으로 코딩을 한다.
 
 
 ## Template 통한 웹브라우저로 페이지 정보(화면) 출력
@@ -184,7 +233,6 @@ philgo_banner::runAjax() 가 호출된다.
 모든 처리는 template/overframe-index-page 에서 한다.
 
 @todo @검토 이 template 은 view 로 변경이 되어야 할 것 같다.
-
 
 즉, 스킨을 보여 줄 때에는 template/overframe-index-page 에서 하며
 

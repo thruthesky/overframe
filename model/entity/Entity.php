@@ -107,7 +107,7 @@ class Entity {
             ->save();
      * @endcode
      */
-    public function sets($fields) {
+    public function sets( array $fields ) {
         $this->record = array_merge($this->record, $fields);
         return $this;
     }
@@ -181,6 +181,21 @@ class Entity {
      *
      *      - FALSE if $this->record is empty.
      *
+     * @example EntityTest.php 를 본다.
+     *
+     * @code 입력(생성)에서 에러가 잇는 경우 확인하는 방법.
+     *
+    $entity = $this
+    ->create()
+    ->save();
+    if ( $entity ) {
+    json_success( $entity->getRecord() );
+    }
+    else {
+    json_error(-40041, "Failed to create entity");
+    }
+     *
+     * @endcode
      */
     public function save() {
         if ( empty($this->record) ) return FALSE;
@@ -194,10 +209,11 @@ class Entity {
             );
         }
         else {
-            $this->db->insert(
+            $re = $this->db->insert(
                 $this->getTableName(),
                 $this->record
             );
+            if ( $re === FALSE ) return FALSE;
             $this->record['id'] = $this->db->insert_id();
         }
         return $this;
@@ -268,6 +284,10 @@ class Entity {
      *
      * @code Load with condition
      *      entity($name)->load("name='jaeho'");
+     * @endcode
+     * @code Load with condition and check the result
+        $entity = $this->load("user_id=$id AND date=$date");
+        if ( ! $entity ) json_error(-40445, "You have attended already on $date");
      * @endcode
      */
     public function load($id, $fields='*') {
@@ -366,7 +386,7 @@ class Entity {
         $where = $order_by = $limit = $offset = $page = $fields = null;
         if ( isset($o['where']) ) $where = "$o[where]";
         else $where = 1;
-        if ( isset($o['order_by']) ) $order_by = $o['order_by'];
+        if ( isset($o['order_by']) ) $order_by = "ORDER BY $o[order_by]";
         if ( isset($o['fields']) ) $fields = $o['fields'];
 
         if ( isset($o['limit']) ) {

@@ -71,6 +71,7 @@ class Database extends DatabaseLayer {
      * @param array $keys_and_values
      * @return string
      *
+     * - If error, returns FALS
      *
      */
     public function insert($table, array $keys_and_values)

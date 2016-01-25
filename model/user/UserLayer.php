@@ -22,10 +22,16 @@ class UserLayer
         else return null;
     }
 
+    public function getUsername() {
+        if ( sys()->isSapcms1() ) {
+            return login('id');
+        }
+        else return null;
+    }
 
     public function getID() {
         if ( sys()->isSapcms1() ) {
-            return login('id');
+            return login('idx');
         }
         else return null;
     }

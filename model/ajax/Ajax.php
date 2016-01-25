@@ -15,6 +15,17 @@ class Ajax {
     public function run() {
         header('Access-Control-Allow-Origin: *');
 
+
+
+
+        if ( $model = http_input('model') ) {
+            list ( $model_name, $class_name, $method_name ) = explode('.', $model);
+            //$class = ucfirst($class_name);
+            $namespace = "of\\$model_name\\$class_name";
+            $obj = new $namespace();
+            return $obj->$method_name();
+        }
+
         switch( $doing = http_input('do') ) {
             default:
                 if ( strpos($doing, '.') ) {

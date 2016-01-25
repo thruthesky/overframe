@@ -197,13 +197,20 @@ function hi($name = null, $default = null) {
 
 function json_error($code, $message) {
     $in = http_input();
-    echo json_encode( array('code'=>$code, 'message'=>$message, 'system'=>sys()->find(), 'do'=>$in['do']) );
+    $out = array('code'=>$code, 'message'=>$message, 'system'=>sys()->find() );
+    if ( isset( $in['do'] ) ) $out['do'] = $in['do'];
+    if ( isset( $in['model'] ) ) $out['model'] = $in['model'];
+    echo json_encode( $out );
     exit;
 }
 
 function json_success($data) {
     $in = http_input();
-    echo json_encode( array('code'=>0, 'system'=>sys()->find(), 'do'=>$in['do'], 'data'=>$data) );
+    $out = array('code'=>0, 'system'=>sys()->find());
+    if ( isset($in['do']) ) $out['do'] = $in['do'];
+    else if ( isset($in['model'] ) ) $out['model'] = $in['model'];
+    $out['data'] = $data;
+    echo json_encode( $out );
     exit;
 }
 
@@ -288,6 +295,17 @@ function ajax_endpoint() {
     }
     if ( sys()->isCodeIgniter3() ) {
         return url_root() . '?action=ajax';
+    }
+    else return null;
+}
+
+function model_endpoint() {
+    if ( sys()->isSapcms1() ) {
+        $domain = etc::domain_name();
+        return "http://$domain/?module=overframe&action=index&model=";
+    }
+    if ( sys()->isCodeIgniter3() ) {
+        return url_root() . '?model=';
     }
     else return null;
 }
