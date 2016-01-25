@@ -37,6 +37,7 @@ class Philgo_attend extends Node
     public function attend() {
 
         $id = user()->getID();
+	if ( empty($id) ) json_error(-40443, "로그인을 하십시오.");
         $date = date('Ymd');
         $entity = $this->load("user_id=$id AND date=$date");
         if ( $entity ) {
