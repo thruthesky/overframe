@@ -5,6 +5,11 @@
 
 Overframe is a framewhich runs upon other frameworks like codeigniter, laravel, slim, etc.
 
+## 사용 설명
+
+* Test.php 파일을 살펴보면, 각 모듈 별 활용도를 잘 이해 할 수 있다. 
+
+
 ## TODO
 
 * 기본 설치를 할 수 있도록 한다.
@@ -81,7 +86,7 @@ autoload.php 에 따라서 적절한 namespace 의 ItemList.php 를 로드하고
 object 를 생성한 다음 collect() 메소드를 호출한다.
 
 
-다음은 http://philgo.org/?module=overframe&action=index&model=entity.ItemList.collect 와 같이 접속을 한 경우,
+다음은 http://philgo.org/?module=overframe&action=index&model=entity.crud.collect&entity=philgo_attend 와 같이 접속을 한 경우,
  
 실행되는 최종 collect() 메소드이다.
 
@@ -288,4 +293,55 @@ User::getLogin(), User::getName(), User::getID(), User::getEmail(), User::isAdmi
 
     di( user()->getLogin() );
     di( user()->isAdmin() );
+
+
+
+
+
+## 모듈 설치
+
+모듈 설치의 기본 예제는 module/data/install.php 에서 찾을 수 있다.
+
+하지만 하나의 모듈에 여러개의 entity 가 들어가는 경우에는
+
+module/philgo/install.php 와 같이 exists() 를 overriding 해서 entity 테이블을 다르게 점검해야 할 필요가 있다.
+
+
+모듈 설치 예제)
+---
+
+    <?php
+    namespace of;
+    class Philgo extends Node
+    {
+        public function __construct()
+        {
+            parent::__construct();
+    
+        }
+        /**
+         *
+         */
+        public function install() {
+            $attend = node('philgo_attend');
+            $attend->init();
+            $attend->addColumn('user_id', 'varchar', 64);
+            $attend->addColumn('date', 'int');
+            $attend->addUniqueKey('user_id,date');
+        }
+    
+        public function uninstall()
+        {
+            $attend = node('philgo_attend');
+            $attend->uninit();
+        }
+    
+        public function exists( $tablename = null )
+        {
+            $attend = node('philgo_attend');
+            $tablename = $attend->getTableName();
+            return parent::exists($tablename);
+        }
+    }
+---
 

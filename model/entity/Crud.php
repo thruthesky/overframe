@@ -41,8 +41,9 @@ class Crud extends Entity {
         $o['page'] = isset($in['page']) ? $in['page'] : 1;
         $o['offset'] = isset($in['offset']) ? $in['offset'] : 0;
 
-        $entity = $in['entity']();
-        $entities = $entity->search( $o );
+        $entity_name = $in['entity'];
+        $node = node($entity_name);
+        $entities = $node->search( $o );
 
         $data = array();
 

@@ -1,5 +1,13 @@
 <?php
-use of\philgo_attend\Philgo_attend;
+
+/**
+ * @return of\Philgo;
+ */
+function philgo() {
+    return new \of\Philgo();
+}
+
+
 
 
 /**

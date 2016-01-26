@@ -4,6 +4,7 @@ use of\Ajax;
 use of\Data;
 use of\Database;
 use of\Entity;
+use of\Node;
 use of\System;
 
 
@@ -31,6 +32,19 @@ function entity($name=null) {
     }
     else return new Entity();
 }
+
+function node($name) {
+    $node = new Node();
+    $node->setTableName($name);
+    return $node;
+}
+
+function meta($name) {
+    $meta = new \of\Meta();
+    $meta->setTableName($name);
+    return $meta;
+}
+
 
 /**
  * @param int $id

@@ -54,10 +54,12 @@ class Entity {
 
     /**
      * Return true if the Entity table exists.
+     * @param null $tablename
      * @return bool
      */
-    public function exists() {
-        return $this->db->tableExists( $this->getTableName() );
+    public function exists( $tablename = null ) {
+        if ( empty($tablename ) ) $tablename = $this->getTableName();
+        return $this->db->tableExists( $tablename );
     }
 
     /**
@@ -69,7 +71,7 @@ class Entity {
      *
      */
     public function is() {
-        return $this->get('id') > 0;
+        return self::get('id') > 0;
     }
 
 
@@ -323,7 +325,7 @@ class Entity {
         if ( empty($ids) ) return FALSE;
         $these = array();
         foreach ($ids as $id) {
-            $these[] = $this->load($id, $fields);
+            $these[] = self::load($id, $fields);
         }
         return $these;
     }
@@ -357,7 +359,7 @@ class Entity {
     public function loadQuery($where=null, $fields='*') {
         if ( $where ) $where = "WHERE $where";
         $rows = $this->db->query("SELECT id FROM " . $this->getTableName() . " $where");
-        return $this->loads( $this->getIDs($rows), $fields );
+        return self::loads( $this->getIDs($rows), $fields );
     }
 
 

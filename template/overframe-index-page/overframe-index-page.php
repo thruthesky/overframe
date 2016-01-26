@@ -22,6 +22,7 @@ $url = url_action();
                 <a class="btn btn-secondary" href="<?php echo $url?>&do=model-list">Model List</a>
                 <a class="btn btn-secondary" href="<?php echo $url?>&do=entity-list">Entity List</a>
                 <a class="btn btn-secondary" href="<?php echo $url?>&do=file-upload-test">File Upload Test</a>
+                <a class="btn btn-secondary" href="/?module=overframe&action=point_event">포인트 이벤트</a>
             <?php } ?>
             <?php if ( isLocalhost() || banner()->hasAccess() ) { ?>
                 <a class="btn btn-secondary" href="<?php echo $url?>&do=philgo-banner">배너</a>

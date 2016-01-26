@@ -17,6 +17,9 @@ class Ajax {
 
 
 
+        date_default_timezone_set('Asia/Seoul');
+        user()->login();
+
 
         if ( $model = http_input('model') ) {
             list ( $model_name, $class_name, $method_name ) = explode('.', $model);
@@ -41,4 +44,7 @@ class Ajax {
                 return null;
         }
     }
+
+
+
 }
