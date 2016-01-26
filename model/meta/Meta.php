@@ -68,7 +68,8 @@ class Meta extends Entity {
             $this->create();
             parent::set('code', $code);
             parent::set('value', $value);
-            return $this->save();
+            $re = parent::save();
+	return $re;
         }
     }
 
