@@ -23,8 +23,8 @@ class Ajax {
 
         if ( $model = http_input('model') ) {
             list ( $model_name, $class_name, $method_name ) = explode('.', $model);
-            //$class = ucfirst($class_name);
-            $namespace = "of\\$model_name\\$class_name";
+            $uc_first_class_name = ucfirst($class_name);
+            $namespace = "of\\$model_name\\$uc_first_class_name";
             $obj = new $namespace();
             return $obj->$method_name();
         }
