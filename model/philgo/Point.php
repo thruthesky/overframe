@@ -18,9 +18,9 @@ class Point extends Philgo
                 // 1 분 이내에 중복 신청이 안되도록 한다.
                 if ( $stamp < time() - 60 ) {
 
-                    // 총 포인트가 5만 점이 넘지 않도록 한다.
+                    // 총 포인트가 10만 점이 넘지 않도록 한다.
                     $point = $meta->get("total.event.point.$idx");
-                    if ( $point > 50000 ) json_success(array('code'=>-40470, 'message'=>"한도 초과: 포인트는 50,000 점까지만 획득 가능합니다."));
+                    if ( $point > 100000 ) json_success(array('code'=>-40470, 'message'=>"한도 초과: 포인트는 50,000 점까지만 획득 가능합니다."));
 
                     global $sys;
                     $d = array(
