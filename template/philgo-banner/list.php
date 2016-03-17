@@ -32,7 +32,8 @@
 </script>
 <?php
 
-$no = data()->count("gid='philgo-banner'");
+$philgo_banner = new \of\Philgo_banner();
+$no = $philgo_banner->count();
 ?>
 
 <div class="of-row">
@@ -58,7 +59,6 @@ foreach ( $datas as $data ) {
 }
 */
 
-$philgo_banner = new \of\Philgo_banner();
 $banners = $philgo_banner->loadAll();
 if ( $banners ) {
     foreach ( $banners as $banner ) {
