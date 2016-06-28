@@ -290,7 +290,8 @@ function url_action() {
 
 function url_overframe_data($filename=null) {
     if ( sys()->isSapcms1() ) {
-        $domain = etc::domain_name();
+        //$domain = etc::domain_name();
+        $domain = 'file.philgo.com';
         return "http://$domain/data/overframe/$filename";
     }
     else if ( sys()->isCodeIgniter3() ) {
