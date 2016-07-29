@@ -78,7 +78,7 @@ class System {
     public function log ( $str )
     {
         $str = is_string($str) ? $str : print_r( $str, true );
-        file_put_contents ( path_debug_log(), self::$count_log++ . ' : ' . $str . "\n", FILE_APPEND );
+//        file_put_contents ( path_debug_log(), self::$count_log++ . ' : ' . $str . "\n", FILE_APPEND );
     }
 
     public function template($module_name) {
